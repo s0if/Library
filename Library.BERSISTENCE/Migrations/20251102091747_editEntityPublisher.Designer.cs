@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.BERSISTENCE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251027104712_editEntityBook")]
-    partial class editEntityBook
+    [Migration("20251102091747_editEntityPublisher")]
+    partial class editEntityPublisher
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,8 +100,19 @@ namespace Library.BERSISTENCE.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("BookFile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CategoryId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
                         .IsRequired()
@@ -113,6 +124,9 @@ namespace Library.BERSISTENCE.Migrations
                     b.Property<DateTime>("PublishedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("PublisherId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -120,6 +134,10 @@ namespace Library.BERSISTENCE.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CategoryId1");
+
+                    b.HasIndex("PublisherId");
 
                     b.ToTable("Books");
                 });
@@ -141,13 +159,8 @@ namespace Library.BERSISTENCE.Migrations
 
             modelBuilder.Entity("Library.DOMAIN.MODEL.Publisher", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("PublisherDate")
@@ -158,9 +171,6 @@ namespace Library.BERSISTENCE.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookId")
-                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -175,6 +185,9 @@ namespace Library.BERSISTENCE.Migrations
 
                     b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("FinishDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ReadDate")
                         .HasColumnType("datetime2");
@@ -328,29 +341,29 @@ namespace Library.BERSISTENCE.Migrations
             modelBuilder.Entity("Library.DOMAIN.MODEL.Books", b =>
                 {
                     b.HasOne("Library.DOMAIN.MODEL.Category", "Category")
-                        .WithMany("Books")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("Library.DOMAIN.MODEL.Category", null)
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryId1");
+
+                    b.HasOne("Library.DOMAIN.MODEL.Publisher", null)
+                        .WithMany("Book")
+                        .HasForeignKey("PublisherId");
 
                     b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Library.DOMAIN.MODEL.Publisher", b =>
                 {
-                    b.HasOne("Library.DOMAIN.MODEL.Books", "Book")
-                        .WithOne("Publisher")
-                        .HasForeignKey("Library.DOMAIN.MODEL.Publisher", "BookId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Library.DOMAIN.MODEL.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Book");
 
                     b.Navigation("User");
                 });
@@ -427,15 +440,17 @@ namespace Library.BERSISTENCE.Migrations
 
             modelBuilder.Entity("Library.DOMAIN.MODEL.Books", b =>
                 {
-                    b.Navigation("Publisher")
-                        .IsRequired();
-
                     b.Navigation("Reads");
                 });
 
             modelBuilder.Entity("Library.DOMAIN.MODEL.Category", b =>
                 {
                     b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("Library.DOMAIN.MODEL.Publisher", b =>
+                {
+                    b.Navigation("Book");
                 });
 #pragma warning restore 612, 618
         }

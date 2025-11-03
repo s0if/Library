@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.BERSISTENCE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251025101551_INITIAL")]
+    [Migration("20251031150251_INITIAL")]
     partial class INITIAL
     {
         /// <inheritdoc />
@@ -96,15 +96,14 @@ namespace Library.BERSISTENCE.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Auther")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CategoryId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ISBN")
@@ -124,6 +123,8 @@ namespace Library.BERSISTENCE.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CategoryId1");
 
                     b.ToTable("Books");
                 });
@@ -145,11 +146,9 @@ namespace Library.BERSISTENCE.Migrations
 
             modelBuilder.Entity("Library.DOMAIN.MODEL.Publisher", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
@@ -179,6 +178,9 @@ namespace Library.BERSISTENCE.Migrations
 
                     b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("FinishDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ReadDate")
                         .HasColumnType("datetime2");
@@ -332,10 +334,14 @@ namespace Library.BERSISTENCE.Migrations
             modelBuilder.Entity("Library.DOMAIN.MODEL.Books", b =>
                 {
                     b.HasOne("Library.DOMAIN.MODEL.Category", "Category")
-                        .WithMany("Books")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("Library.DOMAIN.MODEL.Category", null)
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryId1");
 
                     b.Navigation("Category");
                 });

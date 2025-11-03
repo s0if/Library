@@ -2,6 +2,7 @@
 using Library.APPLICATION.Mapping;
 using Library.APPLICATION.Service;
 using Library.DOMAIN.MODEL;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Library.APPLICATION.UseCase.Auth
             _email = email;
             _sendEmail = sendEmail;
         }
-        public async Task<string> ExecuteAsync(RegisterDTOs registerDTOs)
+        public async Task<string> ExecuteAsync(RegisterDTOs registerDTOs,HttpRequest request)
         {
             var user = _registerMap.ToRegister(registerDTOs); 
             var result =  await _userManager.CreateAsync(user, registerDTOs.Password);  
@@ -36,7 +37,7 @@ namespace Library.APPLICATION.UseCase.Auth
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, "user");
-                await _sendEmail.ConfirmEmail(user);
+                await _sendEmail.ConfirmEmail(user, request);
                 return "User registered successfully. Check you email to confirm";
             }
             else

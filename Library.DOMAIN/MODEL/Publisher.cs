@@ -9,13 +9,12 @@ namespace Library.DOMAIN.MODEL
 {
     public class Publisher
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime PublisherDate { get; set; }
         public string UserId { get; set; }
-        public Guid BookId { get; set; }
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
-        [ForeignKey("BookId")]
-        public Books Book { get; set; }
+        public IEnumerable<Books> Book { get; set; }=new HashSet<Books>();
+
     }
 }

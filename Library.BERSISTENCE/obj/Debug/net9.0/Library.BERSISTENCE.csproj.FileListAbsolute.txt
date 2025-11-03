@@ -1,4 +1,8 @@
+C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Template\ConfirmEmail.html
+C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Template\ForgetPassword.html
+C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Template\ResetPassword.html
 C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Library.BERSISTENCE.deps.json
+C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Library.BERSISTENCE.runtimeconfig.json
 C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Library.BERSISTENCE.dll
 C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Library.BERSISTENCE.pdb
 C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Library.APPLICATION.dll
@@ -15,9 +19,5 @@ C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\obj\Debug\net9
 C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\obj\Debug\net9.0\Library.BERSISTENCE.dll
 C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\obj\Debug\net9.0\refint\Library.BERSISTENCE.dll
 C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\obj\Debug\net9.0\Library.BERSISTENCE.pdb
-C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\obj\Debug\net9.0\ref\Library.BERSISTENCE.dll
-C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Library.BERSISTENCE.runtimeconfig.json
 C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\obj\Debug\net9.0\Library.BERSISTENCE.genruntimeconfig.cache
-C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Template\ConfirmEmail.html
-C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Template\ForgetPassword.html
-C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\bin\Debug\net9.0\Template\ResetPassword.html
+C:\Users\Saif\Desktop\Project\Library\Library\Library.BERSISTENCE\obj\Debug\net9.0\ref\Library.BERSISTENCE.dll

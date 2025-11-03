@@ -3,17 +3,25 @@ using Library.APPLICATION.UseCase.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace Library.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    //[Authorize(Roles = "admin,staff")]
+    [Authorize(Roles = "admin,staff")]
     public class BookController : ControllerBase
     {
+        private readonly IStringLocalizer<SharedResource> _localizer;
+
+        public BookController(IStringLocalizer<SharedResource> localizer)
+        {
+            _localizer = localizer;
+        }
+
         [HttpPost("Add")]
         public async Task<IActionResult> AddBook(
-            [FromBody] TransactionBookDTOs books,
+            [FromForm] TransactionBookDTOs books,
             [FromServices] AddBookUseCase _addBook
             )
         {
@@ -21,12 +29,12 @@ namespace Library.API.Controllers
             {
                 return BadRequest(new
                 {
-                    Message = "Invalid data",
+                    Message = _localizer["Invalid data"].Value,
                     Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                 });
             }
             await _addBook.Execute(books);
-            return Ok("Book added successfully");
+            return Ok(_localizer["Book added successfully"].Value);
         }
         [HttpPut("Update/{Id}")]
         public async Task<IActionResult> UpdateBook(
@@ -39,12 +47,12 @@ namespace Library.API.Controllers
             {
                 return BadRequest(new
                 {
-                    Message = "Invalid data",
+                    Message = _localizer["Invalid data"].Value,
                     Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                 });
             }
             await _updateBook.Execute(Id, books);
-            return Ok("Book updated successfully");
+            return Ok(_localizer["Book updated successfully"].Value);
         }
         [AllowAnonymous]
         [HttpGet("ById/{Id}")]
@@ -57,14 +65,14 @@ namespace Library.API.Controllers
             {
                 return BadRequest(new
                 {
-                    Message = "Invalid data",
+                    Message = _localizer["Invalid data"].Value,
                     Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                 });
             }
             var result = await _getBook.GetById(Id);
             return Ok(new
             {
-                Message = "Book retrieved successfully",
+                Message = _localizer["Book retrieved successfully"].Value,
                 Data = result
             });
         }
@@ -78,14 +86,14 @@ namespace Library.API.Controllers
             {
                 return BadRequest(new
                 {
-                    Message = "Invalid data",
+                    Message = _localizer["Invalid data"].Value,
                     Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                 });
             }
             var result = await _getBook.GetAll();
             return Ok(new
             {
-                Message = "Books retrieved successfully",
+                Message = _localizer["Books retrieved successfully"].Value,
                 Data = result
             });
         }
@@ -100,12 +108,13 @@ namespace Library.API.Controllers
             {
                 return BadRequest(new
                 {
-                    Message = "Invalid data",
+                    Message = _localizer["Invalid data"].Value,
                     Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                 });
             }
             await _deleteBook.Execute(Id);
-            return Ok("Book deleted successfully");
+            return Ok(_localizer["Book deleted successfully"].Value);
         }
+
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Library.APPLICATION.DTO.Auth;
 using Library.APPLICATION.Service;
 using Library.DOMAIN.MODEL;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Stripe.Forwarding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +24,7 @@ namespace Library.APPLICATION.UseCase.Auth
             _authServices = authServices;
             _sendEmail = sendEmail;
         }
-        public async Task<string> ExecuteAsync(LoginDTOs loginDTOs)
+        public async Task<string> ExecuteAsync(LoginDTOs loginDTOs,HttpRequest request)
         {
 
             if ((string.IsNullOrEmpty(loginDTOs.Email)&& (string.IsNullOrEmpty(loginDTOs.UserName)))|| string.IsNullOrEmpty(loginDTOs.Password))
@@ -42,7 +44,7 @@ namespace Library.APPLICATION.UseCase.Auth
                 throw new Exception("User not found.");
             if(!await _signInManager.UserManager.IsEmailConfirmedAsync(user))
             {
-                await _sendEmail.ConfirmEmail(user);
+                await _sendEmail.ConfirmEmail(user, request);
                 throw new Exception("Email is not confirmed. Please check your email, confirm it, and try again.");
 
             }

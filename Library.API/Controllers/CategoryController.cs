@@ -3,14 +3,22 @@ using Library.APPLICATION.UseCase.Category;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace Library.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    //[Authorize(Roles = "admin,staff")]
+    [Authorize(Roles = "admin,staff")]
     public class CategoryController : ControllerBase
     {
+        private readonly IStringLocalizer<SharedResource> _localizer;
+
+        public CategoryController(IStringLocalizer<SharedResource> localizer)
+        {
+            _localizer = localizer;
+        }
+
         [HttpPost("Add")]
         public  async Task<IActionResult> AddCategory(
             [FromBody] TransactionCategoryDTOs category,
@@ -21,12 +29,12 @@ namespace Library.API.Controllers
             {
                 return BadRequest(new
                 {
-                    Message = "Invalid data",
+                    Message = _localizer["Invalid data"].Value,
                     Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                 });
             }
             await _addCategory.Execute(category);
-            return Ok("Category added successfully");
+            return Ok(_localizer["Category added successfully"].Value);
         }
         [AllowAnonymous]
         [HttpGet("ById/{Id}")]
@@ -39,14 +47,14 @@ namespace Library.API.Controllers
             {
                 return BadRequest(new
                 {
-                    Message = "Invalid data",
+                    Message = _localizer["Invalid data"].Value,
                     Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                 });
             }
             var result = await _getCategory.getById(Id);
             return Ok(new
             {
-                Message = "Category retrieved successfully",
+                Message = _localizer["Category retrieved successfully"].Value,
                 Data = result.Value
             });
         }
@@ -59,7 +67,7 @@ namespace Library.API.Controllers
             var result = await _getCategory.getAll();
             return Ok(new
             {
-                Message = "Category retrieved successfully",
+                Message = _localizer["Category retrieved successfully"].Value,
                 Data = result.Value
             });
         }
@@ -75,12 +83,12 @@ namespace Library.API.Controllers
             {
                 return BadRequest(new
                 {
-                    Message = "Invalid data",
+                    Message = _localizer["Invalid data"].Value,
                     Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                 });
             }
             await updateCategory.Execute(Id, category);
-            return Ok("Category updated successfully");
+            return Ok(_localizer["Category updated successfully"].Value);
         }
 
         [HttpDelete("Delete/{Id}")]
@@ -93,12 +101,12 @@ namespace Library.API.Controllers
             {
                 return BadRequest(new
                 {
-                    Message = "Invalid data",
+                    Message = _localizer["Invalid data"].Value,
                     Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                 });
             }
             await deleteCategory.Execute(Id);
-            return Ok("Category deleted successfully");
+            return Ok(_localizer["Category deleted successfully"].Value);
         }
     }
 }

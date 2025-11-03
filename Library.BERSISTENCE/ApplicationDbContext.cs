@@ -17,14 +17,12 @@ namespace Library.BERSISTENCE
         public DbSet<ApplicationUser> users { get; set; }
         public DbSet<Books> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<BookPublisher> BookPublishers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Books>()
-                .HasOne(b=>b.Publisher)
-                .WithOne(p=>p.Book)
-                .OnDelete(DeleteBehavior.Restrict);
+          
             builder.Entity<Books>()
                 .HasOne(b => b.Category)
                 .WithMany()

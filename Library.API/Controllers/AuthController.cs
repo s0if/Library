@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Threading.Tasks;
 
 namespace Library.API.Controllers
@@ -18,13 +19,15 @@ namespace Library.API.Controllers
         private readonly ForgetPasswordUseCase _forgetPassword;
         private readonly resetPasswordUseCase _resetPassword;
         private readonly ISBlockUseCase _iSBlock;
+        private readonly IStringLocalizer< SharedResource> _localizer;
 
         public AuthController(LoginUseCase loginUseCase,
             RegisterUseCase registerUseCase,
-            Library.APPLICATION.UseCase.Auth.ConfirmEmailUseCase confirmEmail,
+            ConfirmEmailUseCase confirmEmail,
             ForgetPasswordUseCase forgetPassword,
             resetPasswordUseCase resetPassword,
-            ISBlockUseCase iSBlock)
+            ISBlockUseCase iSBlock,
+            IStringLocalizer<SharedResource> localizer)
         {
             _loginUseCase = loginUseCase;
             _registerUseCase = registerUseCase;
@@ -32,55 +35,57 @@ namespace Library.API.Controllers
             _forgetPassword = forgetPassword;
             _resetPassword = resetPassword;
             _iSBlock = iSBlock;
+            _localizer = localizer;
         }
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTOs registerDTOs)
         {
-            var result = await _registerUseCase.ExecuteAsync(registerDTOs);
-            return Ok(result);
+            var result = await _registerUseCase.ExecuteAsync(registerDTOs,Request);
+            return Ok(_localizer[result].Value);
         }
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDTOs loginDTOs)
         {
-            var isSuccess = await _loginUseCase.ExecuteAsync(loginDTOs);
-            if (!string.IsNullOrEmpty(isSuccess))
+            var token = await _loginUseCase.ExecuteAsync(loginDTOs, Request);
+            if (!string.IsNullOrEmpty(token))
             {
+               
                 return Ok(new
                 {
-                    Message = "Login successful",
-                    Token = isSuccess
+                    Message = _localizer["Login successful"].Value,
+                    Token = token,
                 });
             }
-            throw new Exception("Invalid login");
+            throw new Exception(_localizer["Invalid login"].Value);
         }
         [HttpGet("ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string userId, [FromQuery] string token)
         {
             var result = await _confirmEmail.ExecuteAsync(userId, token);
-            return Ok(result);
+            return Ok(_localizer[result].Value);
         }
-        [HttpPut("ChangePassword")]
         [Authorize]
+        [HttpPut("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTOs changePasswordDTOs)
         {
             var userId = User.FindFirst("userId")?.Value;
             if (string.IsNullOrEmpty(userId))
             {
-                return Unauthorized("User ID not found in token.");
+                return Unauthorized(_localizer["User ID not found in token."].Value);
             }
             var changePasswordUseCase = HttpContext.RequestServices.GetService(typeof(ChangePasswordUseCase)) as ChangePasswordUseCase;
             if (changePasswordUseCase == null)
             {
-                throw new Exception("ChangePassword use case not available.");
+                throw new Exception(_localizer["ChangePassword use case not available."].Value);
             }
             var result = await changePasswordUseCase.ExecuteAsync(userId, changePasswordDTOs.CurrentPassword, changePasswordDTOs.NewPassword);
-            return Ok(result);
+            return Ok(_localizer[result].Value);
         }
         [HttpPost("GenerateRestPassword")]
         public async Task<IActionResult> RestPassword(string email)
         {
             var result = await _forgetPassword.ExecuteAsync(email);
-            return Ok(result);
+            return Ok(_localizer[result].Value);
         }
         [HttpGet("ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromQuery] string userId, [FromQuery] string token)
@@ -93,7 +98,7 @@ namespace Library.API.Controllers
         {
 
             var result = await _resetPassword.ExecuteAsync(resetPassword.UserId, resetPassword.Token, resetPassword.NewPassword);
-            return Ok(result);
+            return Ok(_localizer[result].Value);
         }
 
         [Authorize(Roles ="admin")]
@@ -101,14 +106,14 @@ namespace Library.API.Controllers
         public async Task<IActionResult> ISBlock(string ID)
         {
              var result=await _iSBlock.ExecuteAsync(ID);
-            return Ok(result);
+            return Ok(_localizer[result].Value);
         }
         [Authorize(Roles = "admin")]
         [HttpPost("UNBlock/{ID}")]
         public async Task<IActionResult> UNBlock(string ID)
         {
             var result = await _iSBlock.UnblockAsync(ID);
-            return Ok(result);
+            return Ok(_localizer[result].Value);
         }
     }
 }

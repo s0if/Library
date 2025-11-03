@@ -1,4 +1,5 @@
 ﻿using Library.DOMAIN.MODEL;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,14 @@ namespace Library.APPLICATION.Service
             _userManager = userManager;
             _email = email;
         }
-        public async Task ConfirmEmail(ApplicationUser user)
+        public async Task ConfirmEmail(ApplicationUser user,HttpRequest _request)
         {
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var _escapeToken = Uri.EscapeDataString(token);
             string TemplatePath = Path.Combine(AppContext.BaseDirectory, "Template", "ConfirmEmail.html");
             string emailBody = await File.ReadAllTextAsync(TemplatePath);
             emailBody = emailBody.Replace("{{UserName}}", user.UserName)
-                   .Replace("{{ConfirmUrl}}", $"https://localhost:7085/Auth/ConfirmEmail?userId={user.Id}&token={_escapeToken}");
+                   .Replace("{{ConfirmUrl}}", $"{_request.Scheme}://{_request.Host }/Auth/ConfirmEmail?userId={user.Id}&token={_escapeToken}");
             await _email.SendEmailAsync(user.Email,
                 "Confirm your email",
               emailBody);

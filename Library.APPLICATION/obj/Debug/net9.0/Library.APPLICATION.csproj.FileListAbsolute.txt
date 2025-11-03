@@ -1,3 +1,6 @@
+C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\bin\Debug\net9.0\Template\ConfirmEmail.html
+C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\bin\Debug\net9.0\Template\ForgetPassword.html
+C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\bin\Debug\net9.0\Template\ResetPassword.html
 C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\bin\Debug\net9.0\Library.APPLICATION.deps.json
 C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\bin\Debug\net9.0\Library.APPLICATION.dll
 C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\bin\Debug\net9.0\Library.APPLICATION.pdb
@@ -14,6 +17,3 @@ C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\obj\Debug\net9
 C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\obj\Debug\net9.0\refint\Library.APPLICATION.dll
 C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\obj\Debug\net9.0\Library.APPLICATION.pdb
 C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\obj\Debug\net9.0\ref\Library.APPLICATION.dll
-C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\bin\Debug\net9.0\Template\ConfirmEmail.html
-C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\bin\Debug\net9.0\Template\ForgetPassword.html
-C:\Users\Saif\Desktop\Project\Library\Library\Library.APPLICATION\bin\Debug\net9.0\Template\ResetPassword.html

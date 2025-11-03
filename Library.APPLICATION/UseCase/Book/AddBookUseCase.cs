@@ -25,7 +25,8 @@ namespace Library.APPLICATION.UseCase.Book
 
         public async Task Execute(TransactionBookDTOs books)
         {
-           var result= _bookMap.ToBook(books);
+           var result=await _bookMap.ToBook(books);
+
             if(result is null)
                 throw new Exception("Mapping error");
               await _book.Add(result);

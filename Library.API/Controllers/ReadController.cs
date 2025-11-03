@@ -1,7 +1,8 @@
-﻿using Library.APPLICATION.UseCase.Read;
+﻿    using Library.APPLICATION.UseCase.Read;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace Library.API.Controllers
 {
@@ -9,6 +10,13 @@ namespace Library.API.Controllers
     [ApiController]
     public class ReadController : ControllerBase
     {
+        private readonly IStringLocalizer<SharedResource> _localizer;
+
+        public ReadController(IStringLocalizer<SharedResource> localizer)
+        {
+            _localizer = localizer;
+        }
+
         //[Authorize(Roles = "admin,staff")]
         [HttpPost("start/{BookId}")]
         public async Task<IActionResult> StartRead(
@@ -22,7 +30,7 @@ namespace Library.API.Controllers
                 throw new UnauthorizedAccessException("User ID not found in claims");
             }
             await _startRead.Execute(UserId, BookId);
-            return Ok("Reading started successfully");
+            return Ok(_localizer["Reading started successfully"].Value);
         }
 
         [Authorize(Roles = "admin,staff")]
@@ -38,7 +46,7 @@ namespace Library.API.Controllers
                 throw new UnauthorizedAccessException("User ID OR Book ID not found in claims");
             }
             await _startRead.Execute(UserId, BookId);
-            return Ok("Reading started successfully");
+            return Ok(_localizer["Reading started successfully"].Value);
         }
 
         [Authorize]
@@ -54,7 +62,7 @@ namespace Library.API.Controllers
                 throw new UnauthorizedAccessException("User ID not found in claims");
             }
             await _finishRead.Execute(ReadId, UserId);
-            return Ok("Reading finished successfully");
+            return Ok(_localizer["Reading finished successfully"].Value);
         }
         [Authorize(Roles = "admin,staff")]
         [HttpGet("ByBooks/{BookId}")]
@@ -66,7 +74,7 @@ namespace Library.API.Controllers
             var result = await _getReadsByBook.Execute(BookId);
             return Ok(new
             {
-                Message = "Reads retrieved successfully",
+                Message = _localizer["Reads retrieved successfully"].Value,
                 Data = result
             });
         }
@@ -81,7 +89,7 @@ namespace Library.API.Controllers
             var result = await _getReadsByUser.Execute(UserId);
             return Ok(new
             {
-                Message = "Reads retrieved successfully",
+                Message = _localizer["Reads retrieved successfully"].Value,
                 Data = result
             });
         }
