@@ -9,7 +9,7 @@
       "Library.API/1.0.0": {
         "dependencies": {
           "Library.APPLICATION": "1.0.0",
-          "Library.BERSISTENCE": "1.0.0",
+          "Library.PERSISTENCE": "1.0.0",
           "Microsoft.AspNetCore.OpenApi": "9.0.8",
           "Microsoft.EntityFrameworkCore.Design": "9.0.10",
           "Microsoft.Extensions.Localization": "9.0.10",
@@ -1481,25 +1481,24 @@
           }
         }
       },
-      "Library.BERSISTENCE/1.0.0": {
-        "dependencies": {
-          "Library.APPLICATION": "1.0.0",
-          "Library.DOMAIN": "1.0.0",
-          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.10"
-        },
-        "runtime": {
-          "Library.BERSISTENCE.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
       "Library.DOMAIN/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.10"
         },
         "runtime": {
           "Library.DOMAIN.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Library.PERSISTENCE/1.0.0": {
+        "dependencies": {
+          "Library.DOMAIN": "1.0.0",
+          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.10"
+        },
+        "runtime": {
+          "Library.PERSISTENCE.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -2456,12 +2455,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Library.BERSISTENCE/1.0.0": {
+    "Library.DOMAIN/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Library.DOMAIN/1.0.0": {
+    "Library.PERSISTENCE/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

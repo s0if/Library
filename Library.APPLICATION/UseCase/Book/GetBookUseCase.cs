@@ -29,15 +29,57 @@ namespace Library.APPLICATION.UseCase.Book
             var result =_bookMap.GetBookDTOs(bookResult);
             return result;
         }
-        public async Task<IEnumerable<GetBookDTOs>> GetAll()
+        public async Task<IEnumerable<GetBookDTOs>> GetAll(
+            string? Title=null,
+            string? Author = null,
+            DateTime? PublishedDate = null, 
+            string? ISBN = null,
+            decimal? LowestPrice = null,
+            decimal? HighestPrice = null)
         {
-            var bookResult=await _book.GetAll();
-            if(bookResult is null)
+            var bookResult=new List<GetBookDTOs>();
+            if (!string.IsNullOrEmpty(Title))
             {
-                throw new Exception("No books found");
+                var result= await _book.FilterTitle(Title);
+                if(result is not null)
+                    bookResult.AddRange(result.Select(b=>_bookMap.GetBookDTOs(b)).ToList());
             }
-            var result=bookResult.Select(b=> _bookMap.GetBookDTOs(b)).ToList();
-            return result;
+            if (!string.IsNullOrEmpty(Author))
+            {
+                var result= await _book.FilterAuthor(Author);
+                if (result is not null)
+                    bookResult.AddRange(result.Select(b=>_bookMap.GetBookDTOs(b)).ToList());
+            }
+            if (PublishedDate is not null)
+            {
+                var result= await _book.FilterDate(PublishedDate.Value);
+                if (result is not null)
+                    bookResult.AddRange(result.Select(b=>_bookMap.GetBookDTOs(b)).ToList());
+            }
+            if (!string.IsNullOrEmpty(ISBN))
+            {
+                var result= await _book.FilterISBN(ISBN);
+                if (result is not null)
+                    bookResult.AddRange(result.Select(b=>_bookMap.GetBookDTOs(b)).ToList());
+            }
+            if (LowestPrice is not null&& HighestPrice is not null)
+            {
+                var result= await _book.FilterPrice(LowestPrice.Value, HighestPrice.Value);
+                if (result is not null)
+                    bookResult.AddRange(result.Select(b=>_bookMap.GetBookDTOs(b)).ToList());
+            }
+            if (!bookResult.Any())
+            {
+                var result = await _book.GetAll();
+                if(result is null)
+                {
+                    throw new Exception("No books found");
+                }
+                 bookResult = result.Select(b=> _bookMap.GetBookDTOs(b)).ToList();
+            }
+                return bookResult.GroupBy(b=>b.Id).Select(g=>g.First()).ToList();
+
+
         }
     }
 }

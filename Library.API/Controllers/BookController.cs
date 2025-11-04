@@ -78,7 +78,12 @@ namespace Library.API.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GetBookDTOs>>> GetBooks(
+        public async Task<ActionResult<IEnumerable<GetBookDTOs>>> GetBooks(string? Title,
+            string? Author ,
+            DateTime? PublishedDate ,
+            string? ISBN,
+            decimal? LowestPrice,
+            decimal? HighestPrice,
             [FromServices] GetBookUseCase _getBook
             )
         {
@@ -90,7 +95,7 @@ namespace Library.API.Controllers
                     Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
                 });
             }
-            var result = await _getBook.GetAll();
+            var result = await _getBook.GetAll(Title, Author, PublishedDate, ISBN, LowestPrice, HighestPrice);
             return Ok(new
             {
                 Message = _localizer["Books retrieved successfully"].Value,

@@ -11,7 +11,7 @@ namespace Library.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    //[Authorize(Roles = "admin,staff")]
+    //
 
     public class PublisherController : ControllerBase
     {
@@ -54,8 +54,8 @@ namespace Library.API.Controllers
             var result=await _getPublisher.ExecuteAll();
             return Ok(result);
         }
+        [Authorize(Roles = "admin,staff")]
 
-        
         [HttpDelete("Delete/{PublisherId}")]
         public async Task<IActionResult> DeletePublisher(
             Guid PublisherId,

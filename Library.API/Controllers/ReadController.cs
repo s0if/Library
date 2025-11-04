@@ -17,7 +17,7 @@ namespace Library.API.Controllers
             _localizer = localizer;
         }
 
-        //[Authorize(Roles = "admin,staff")]
+        [Authorize]
         [HttpPost("start/{BookId}")]
         public async Task<IActionResult> StartRead(
             Guid BookId,
@@ -49,21 +49,21 @@ namespace Library.API.Controllers
             return Ok(_localizer["Reading started successfully"].Value);
         }
 
-        [Authorize]
-        [HttpPut("finish/{ReadId}")]
-        public async Task<IActionResult> FinishRead(
-            Guid ReadId,
-            [FromServices] FinishReadUseCase _finishRead
-            )
-        {
-            var UserId = User.Claims.FirstOrDefault(c => c.Type.EndsWith("userId"))?.Value;
-            if (string.IsNullOrEmpty(UserId))
-            {
-                throw new UnauthorizedAccessException("User ID not found in claims");
-            }
-            await _finishRead.Execute(ReadId, UserId);
-            return Ok(_localizer["Reading finished successfully"].Value);
-        }
+        //[Authorize]
+        //[HttpPut("finish/{ReadId}")]
+        //public async Task<IActionResult> FinishRead(
+        //    Guid ReadId,
+        //    [FromServices] FinishReadUseCase _finishRead
+        //    )
+        //{
+        //    var UserId = User.Claims.FirstOrDefault(c => c.Type.EndsWith("userId"))?.Value;
+        //    if (string.IsNullOrEmpty(UserId))
+        //    {
+        //        throw new UnauthorizedAccessException("User ID not found in claims");
+        //    }
+        //    await _finishRead.Execute(ReadId, UserId);
+        //    return Ok(_localizer["Reading finished successfully"].Value);
+        //}
         [Authorize(Roles = "admin,staff")]
         [HttpGet("ByBooks/{BookId}")]
         public async Task<IActionResult> GetReadsByBook(

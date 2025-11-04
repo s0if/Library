@@ -2524,21 +2524,6 @@
           "bin/placeholder/Library.APPLICATION.dll": {}
         }
       },
-      "Library.BERSISTENCE/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v9.0",
-        "dependencies": {
-          "Library.APPLICATION": "1.0.0",
-          "Library.DOMAIN": "1.0.0",
-          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.10"
-        },
-        "compile": {
-          "bin/placeholder/Library.BERSISTENCE.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Library.BERSISTENCE.dll": {}
-        }
-      },
       "Library.DOMAIN/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
@@ -2550,6 +2535,20 @@
         },
         "runtime": {
           "bin/placeholder/Library.DOMAIN.dll": {}
+        }
+      },
+      "Library.PERSISTENCE/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "Library.DOMAIN": "1.0.0",
+          "Microsoft.EntityFrameworkCore.SqlServer": "9.0.10"
+        },
+        "compile": {
+          "bin/placeholder/Library.PERSISTENCE.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Library.PERSISTENCE.dll": {}
         }
       }
     }
@@ -7804,21 +7803,21 @@
       "path": "../Library.APPLICATION/Library.APPLICATION.csproj",
       "msbuildProject": "../Library.APPLICATION/Library.APPLICATION.csproj"
     },
-    "Library.BERSISTENCE/1.0.0": {
-      "type": "project",
-      "path": "../Library.BERSISTENCE/Library.BERSISTENCE.csproj",
-      "msbuildProject": "../Library.BERSISTENCE/Library.BERSISTENCE.csproj"
-    },
     "Library.DOMAIN/1.0.0": {
       "type": "project",
       "path": "../Library.DOMAIN/Library.DOMAIN.csproj",
       "msbuildProject": "../Library.DOMAIN/Library.DOMAIN.csproj"
+    },
+    "Library.PERSISTENCE/1.0.0": {
+      "type": "project",
+      "path": "../Library.PERSISTENCE/Library.PERSISTENCE.csproj",
+      "msbuildProject": "../Library.PERSISTENCE/Library.PERSISTENCE.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
       "Library.APPLICATION >= 1.0.0",
-      "Library.BERSISTENCE >= 1.0.0",
+      "Library.PERSISTENCE >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 9.0.8",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.10",
       "Microsoft.Extensions.Localization >= 9.0.10",
@@ -7860,8 +7859,8 @@
             "C:\\Users\\Saif\\Desktop\\Project\\Library\\Library\\Library.APPLICATION\\Library.APPLICATION.csproj": {
               "projectPath": "C:\\Users\\Saif\\Desktop\\Project\\Library\\Library\\Library.APPLICATION\\Library.APPLICATION.csproj"
             },
-            "C:\\Users\\Saif\\Desktop\\Project\\Library\\Library\\Library.BERSISTENCE\\Library.BERSISTENCE.csproj": {
-              "projectPath": "C:\\Users\\Saif\\Desktop\\Project\\Library\\Library\\Library.BERSISTENCE\\Library.BERSISTENCE.csproj"
+            "C:\\Users\\Saif\\Desktop\\Project\\Library\\Library\\Library.PERSISTENCE\\Library.PERSISTENCE.csproj": {
+              "projectPath": "C:\\Users\\Saif\\Desktop\\Project\\Library\\Library\\Library.PERSISTENCE\\Library.PERSISTENCE.csproj"
             }
           }
         }
