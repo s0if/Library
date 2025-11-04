@@ -184,3 +184,6 @@ C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Debug\net9.0\Libra
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Debug\net9.0\Library.API.genruntimeconfig.cache
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Debug\net9.0\ref\Library.API.dll
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Users\Saif\Desktop\Project\Library\Library\Library.API\bin\Debug\net9.0\Azure.Storage.Blobs.dll
+C:\Users\Saif\Desktop\Project\Library\Library\Library.API\bin\Debug\net9.0\Azure.Storage.Common.dll
+C:\Users\Saif\Desktop\Project\Library\Library\Library.API\bin\Debug\net9.0\System.IO.Hashing.dll

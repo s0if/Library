@@ -1,0 +1,1233 @@
+{
+	"info": {
+		"_postman_id": "4408e3ec-fba6-469e-a4e7-c97d9bc512b8",
+		"name": "📚 Library Management System API - Complete Collection (All 27 Endpoints)",
+		"description": "# 📚 Library Management System API\n\n## Overview\nComplete API documentation for the Library Management System with authentication, book management, category management, reading tracking, and publisher/checkout functionality with Stripe integration.\n\n## 🌐 Base URL\n`https://localhost:7085`\n\n## 🔐 Authentication\nMost endpoints require JWT Bearer token authentication. After successful login, include the token in the Authorization header:\n```\nAuthorization: Bearer {{token}}\n```\n\n## 🌍 Localization\nThe API supports English and Arabic. Use the `Accept-Language` header:\n- `en` - English (default)\n- `ar` - Arabic\n\n## 👥 Default Users (Seeded)\n- **Admin**: `admin@saif.com` / `@Admin12`\n- **Staff**: `staff@saif.com` / `@Staff12`\n- **User**: `user@saif.com` / `@User12`\n\n## 📋 Roles & Permissions\n- **Public**: View books and categories\n- **User**: Start reading books, purchase books\n- **Staff**: Manage books, categories, view read statistics\n- **Admin**: All operations including user blocking\n\n## 🚀 Quick Start\n1. Import this collection and the environment file\n2. Start with the Login endpoint to get your token\n3. Token is automatically saved to `{{token}}` variable\n4. Use the token for protected endpoints\n\n## 📦 Technologies\n- ASP.NET Core 9.0\n- JWT Authentication\n- Stripe Payment Gateway\n- Cloudinary (PDF Storage)\n- Entity Framework Core\n- SQL Server\n\n**Total Endpoints:** 27\n**Authentication:** 9 endpoints\n**Categories:** 5 endpoints\n**Books:** 5 endpoints\n**Reading Tracking:** 4 endpoints\n**Publisher/Checkout:** 4 endpoints\n\n---",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33498662"
+	},
+	"item": [
+		{
+			"name": "🔐 Authentication",
+			"item": [
+				{
+					"name": "🔐 Register - Create New User Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userName\": \"john_doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phoneNumber\": \"+1234567890\",\n  \"password\": \"SecurePass123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-Library}}/Auth/Register",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Auth",
+								"Register"
+							]
+						},
+						"description": "## 🔐 Register - Create New User Account\n\n**Endpoint:**  \n`POST {{Url-APICO}}/Auth/Register`\n\n**Description:**  \nCreates a new user account in the system. Upon successful registration, an email confirmation link is sent to the provided email address. The user must confirm their email before they can login.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Content-Type | application/json |\n| Accept-Language | en / ar |\n\n**Body (raw JSON):**\n```json\n{\n  \"userName\": \"john_doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phoneNumber\": \"+1234567890\",\n  \"password\": \"SecurePass123!\"\n}\n```\n\n**Fields:**\n- `userName` → Unique username for the account\n- `email` → Valid email address (unique)\n- `phoneNumber` → Contact phone number\n- `password` → Password (minimum 6 characters, must contain uppercase, lowercase, number, and special character)\n\n### 📤 Response (200 OK)\n```json\n\"User registered successfully. Please check your email to confirm your account.\"\n```\n\n### ❌ Error Responses\n\n**400 Bad Request - Invalid Data**\n```json\n{\n  \"message\": \"Validation failed\",\n  \"errors\": [\n    \"Email is required\",\n    \"Password must be at least 6 characters\"\n  ]\n}\n```\n\n**500 Internal Server Error - User Exists**\n```json\n{\n  \"message\": \"User with this email already exists\"\n}\n```\n\n### 🔄 Usage:\n1. Send a POST request with user details\n2. Check the provided email for confirmation link\n3. Click the confirmation link to activate account\n4. Use the Login endpoint to get JWT token"
+					},
+					"response": []
+				},
+				{
+					"name": "🔐 Login - Authenticate User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"token\", jsonData.Token);",
+									"    console.log(\"✅ Token saved:\", jsonData.Token);",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\": \"admin\",\n//   \"email\": \"admin@saif.com\",\n  \"password\": \"@Admin12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-Library}}/Auth/Login",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Auth",
+								"Login"
+							]
+						},
+						"description": "## 🔐 Login - Authenticate User\n\n**Endpoint:**  \n`POST {{Url-APICO}}/Auth/Login`\n\n**Description:**  \nAuthenticates a user with email (or username) and password. If login is successful, the server returns a JWT token that must be included in the Authorization header for all protected endpoints.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Content-Type | application/json |\n| Accept-Language | en / ar |\n\n**Body (raw JSON):**\n```json\n{\n  \"email\": \"admin@saif.com\",\n  \"password\": \"@Admin12\"\n}\n```\n\n**Alternative - Login with Username:**\n```json\n{\n  \"userName\": \"admin\",\n  \"password\": \"@Admin12\"\n}\n```\n\n**Fields:**\n- `email` → User email address (optional if userName provided)\n- `userName` → Username (optional if email provided)\n- `password` → User password\n\n**Note:** You can login with either email OR username, but password is always required.\n\n### 📤 Response (200 OK)\n```json\n{\n  \"Message\": \"Login successful\",\n  \"Token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3ZTFiODlmMS03ZGYxLTRiY2QtOWM1Ny0xMjM0NTY3ODlhYmMiLCJlbWFpbCI6ImFkbWluQHNhaWYuY29tIiwicm9sZSI6ImFkbWluIiwiZXhwIjoxNzM1OTkzNjAwfQ.example_signature_here\"\n}\n```\n\n**Fields:**\n- `Message` → Success message (localized)\n- `Token` → JWT token (use in Authorization: Bearer {{token}})\n\n**Token Claims Include:**\n- `userId` → Unique user identifier\n- `email` → User email\n- `role` → User role (admin/staff/user)\n- `exp` → Token expiration timestamp\n\n### ❌ Error Responses\n\n**400 Bad Request - Missing Credentials**\n```json\n{\n  \"message\": \"Email or username is required\"\n}\n```\n\n**401 Unauthorized - Invalid Credentials**\n```json\n{\n  \"message\": \"Invalid login\"\n}\n```\n\n**403 Forbidden - Email Not Confirmed**\n```json\n{\n  \"message\": \"Email not confirmed. Please check your email.\"\n}\n```\n\n**403 Forbidden - Account Blocked**\n```json\n{\n  \"message\": \"Account is blocked. Contact administrator.\"\n}\n```\n\n**500 Internal Server Error**\n```json\n{\n  \"message\": \"Internal server error occurred during login\"\n}\n```\n\n### 🔄 Usage:\n1. Send a POST request with valid credentials\n2. Copy the token from the response\n3. Token is automatically saved to `{{token}}` environment variable\n4. Use `Authorization: Bearer {{token}}` for all protected endpoints\n5. Include `Accept-Language` header to test Arabic or English responses\n\n### 🔑 Default Credentials (Seeded):\n- **Admin**: `admin@saif.com` / `@Admin12`\n- **Staff**: `staff@saif.com` / `@Staff12`\n- **User**: `user@saif.com` / `@User12`"
+					},
+					"response": []
+				},
+				{
+					"name": "✉️ Confirm Email - Verify Email Address",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Auth/ConfirmEmail?userId=12345-example&token=CfDJ8ExampleConfirmationToken",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Auth",
+								"ConfirmEmail"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "12345-example",
+									"description": "User ID from registration email"
+								},
+								{
+									"key": "token",
+									"value": "CfDJ8ExampleConfirmationToken",
+									"description": "Email confirmation token"
+								}
+							]
+						},
+						"description": "## ✉️ Confirm Email - Verify Email Address\n\n**Endpoint:**  \n`GET {{Url-APICO}}/Auth/ConfirmEmail`\n\n**Description:**  \nVerifies and confirms a user's email address using the confirmation token sent during registration. This endpoint is typically accessed by clicking the link in the confirmation email.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n| --- | --- |\n| Accept-Language | en / ar |\n\n**Query Parameters:**\n\n| Parameter | Type | Required | Description |\n| --- | --- | --- | --- |\n| userId | string | Yes | User ID from registration email |\n| token | string | Yes | Email confirmation token |\n\n**Example URL:**\n\n```\nGET {{Url-APICO}}/Auth/ConfirmEmail?userId=7e1b89f1-7df1-4bcd-9c57-123456789abc&token=CfDJ8Example...\n\n ```\n\n### 📤 Response (200 OK)\n\n``` json\n\"Email confirmed successfully. You can now login.\"\n\n ```\n\n### ❌ Error Responses\n\n**400 Bad Request - Invalid Token**\n\n``` json\n{\n  \"message\": \"Invalid confirmation token\"\n}\n\n ```\n\n**404 Not Found - User Not Found**\n\n``` json\n{\n  \"message\": \"User not found\"\n}\n\n ```\n\n**500 Internal Server Error - Token Expired**\n\n``` json\n{\n  \"message\": \"Confirmation token has expired. Please request a new one.\"\n}\n\n ```\n\n### 🔄 Usage:\n\n1. User registers via `/Auth/Register`\n    \n2. System sends confirmation email with link\n    \n3. User clicks link in email (opens this endpoint)\n    \n4. Email is confirmed\n    \n5. User can now login\n    \n\n### 📧 Email Link Format:\n\nThe confirmation email contains a link like:\n\n```\nhttps://localhost:7085/Auth/ConfirmEmail?userId={userId}&token={token}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "🔒 Change Password - Update User Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}} ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currentPassword\": \"@Admin12\",\n  \"newPassword\": \"@NewAdmin123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-Library}}/Auth/ChangePassword",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Auth",
+								"ChangePassword"
+							]
+						},
+						"description": "## 🔒 Change Password - Update User Password\n\n**Endpoint:**  \n`PUT {{Url-APICO}}/Auth/ChangePassword`\n\n**Description:**  \nAllows authenticated users to change their password. Requires the current password for verification and a new password that meets security requirements.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Content-Type | application/json |\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Body (raw JSON):**\n```json\n{\n  \"currentPassword\": \"@Admin12\",\n  \"newPassword\": \"@NewAdmin123!\"\n}\n```\n\n**Fields:**\n- `currentPassword` → Current password (required, for verification)\n- `newPassword` → New password (required, minimum 6 characters)\n\n**Password Requirements:**\n- Minimum 6 characters\n- Must contain uppercase letter\n- Must contain lowercase letter\n- Must contain number\n- Must contain special character\n\n### 📤 Response (200 OK)\n```json\n\"Password changed successfully\"\n```\n\n### ❌ Error Responses\n\n**400 Bad Request - Validation Failed**\n```json\n{\n  \"message\": \"Validation failed\",\n  \"errors\": [\n    \"Password must be at least 6 characters long\"\n  ]\n}\n```\n\n**401 Unauthorized - Invalid Token**\n```json\n{\n  \"message\": \"User ID not found in token.\"\n}\n```\n\n**403 Forbidden - Wrong Current Password**\n```json\n{\n  \"message\": \"Current password is incorrect\"\n}\n```\n\n**500 Internal Server Error**\n```json\n{\n  \"message\": \"Failed to change password. Please try again.\"\n}\n```\n\n### 🔄 Usage:\n1. Ensure you're logged in (have valid JWT token)\n2. Send PUT request with current and new passwords\n3. Password is updated immediately\n4. Continue using the same token (no need to re-login)\n\n### 🔐 Security:\n- Requires authentication\n- Validates current password before changing\n- Enforces strong password policy\n- User remains logged in after password change"
+					},
+					"response": []
+				},
+				{
+					"name": "🔑 Generate Reset Password Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Auth/GenerateRestPassword?email=user@saif.com",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Auth",
+								"GenerateRestPassword"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "user@saif.com",
+									"description": "User email address"
+								}
+							]
+						},
+						"description": "## 🔑 Generate Reset Password Token\n\n**Endpoint:**  \n`POST {{Url-APICO}}/Auth/GenerateRestPassword`\n\n**Description:**  \nGenerates a password reset token and sends it to the user's email address. The user can then use this token to reset their password. No authentication required.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n\n**Query Parameters:**\n\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| email | string | Yes | Email address of the account |\n\n**Example URL:**\n```\nPOST {{Url-APICO}}/Auth/GenerateRestPassword?email=user@saif.com\n```\n\n### 📤 Response (200 OK)\n```json\n\"Password reset email sent successfully. Please check your email.\"\n```\n\n### ❌ Error Responses\n\n**404 Not Found - Email Not Found**\n```json\n{\n  \"message\": \"No account found with this email address\"\n}\n```\n\n**500 Internal Server Error - Email Send Failed**\n```json\n{\n  \"message\": \"Failed to send reset email. Please try again later.\"\n}\n```\n\n### 🔄 Usage:\n1. User requests password reset\n2. Send POST request with user's email\n3. System sends email with reset link\n4. User clicks link in email\n5. User submits new password via reset form\n\n### 📧 Email Content:\nThe email contains:\n- Reset password link (valid for limited time)\n- User identification\n- Security instructions\n\n### ⏱️ Token Expiration:\n- Reset tokens are valid for limited time (typically 1 hour)\n- After expiration, user must request a new token"
+					},
+					"response": []
+				},
+				{
+					"name": "🔄 Reset Password - Get Form (HTML)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Url-Library}}/Auth/ResetPassword?userId=12345-example&token=CfDJ8ExampleResetToken",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Auth",
+								"ResetPassword"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "12345-example",
+									"description": "User ID from reset email"
+								},
+								{
+									"key": "token",
+									"value": "CfDJ8ExampleResetToken",
+									"description": "Reset token from email"
+								}
+							]
+						},
+						"description": "## 🔄 Reset Password - Get Form (HTML)\n\n**Endpoint:**  \n`GET {{Url-APICO}}/Auth/ResetPassword`\n\n**Description:**  \nReturns an HTML form for password reset. This endpoint is accessed from the reset password email link and displays a form where users can enter their new password.\n\n### ✅ Request\n\n**Query Parameters:**\n\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| userId | string | Yes | User ID from reset email |\n| token | string | Yes | Password reset token |\n\n**Example URL:**\n```\nGET {{Url-APICO}}/Auth/ResetPassword?userId=7e1b89f1-7df1-4bcd-9c57-123456789abc&token=CfDJ8...\n```\n\n### 📤 Response (200 OK)\n```html\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Reset Password</title>\n    <style>/* Styles */</style>\n</head>\n<body>\n    <form method=\"POST\" action=\"/Auth/ResetPassword\">\n        <input type=\"hidden\" name=\"userId\" value=\"...\" />\n        <input type=\"hidden\" name=\"token\" value=\"...\" />\n        <input type=\"password\" name=\"newPassword\" placeholder=\"Enter new password\" />\n        <button type=\"submit\">Reset Password</button>\n    </form>\n</body>\n</html>\n```\n\n### ❌ Error Responses\n\n**400 Bad Request - Invalid Token**\n```json\n{\n  \"message\": \"Invalid or expired reset token\"\n}\n```\n\n**404 Not Found**\n```json\n{\n  \"message\": \"User not found\"\n}\n```\n\n### 🔄 Usage:\n1. User receives password reset email\n2. User clicks reset link in email\n3. This endpoint displays HTML form\n4. User enters new password\n5. Form submits to `POST /Auth/ResetPassword`"
+					},
+					"response": []
+				},
+				{
+					"name": "🔄 Reset Password - Submit New Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"7e1b89f1-7df1-4bcd-9c57-123456789abc\",\n  \"token\": \"CfDJ8ExampleResetToken\",\n  \"newPassword\": \"@NewSecurePass123!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-Library}}/Auth/ResetPassword",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Auth",
+								"ResetPassword"
+							]
+						},
+						"description": "## 🔄 Reset Password - Submit New Password\n\n**Endpoint:**  \n`POST {{Url-APICO}}/Auth/ResetPassword`\n\n**Description:**  \nResets the user's password using the reset token. This is the final step in the password reset flow where the new password is saved.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Content-Type | application/json |\n| Accept-Language | en / ar |\n\n**Body (raw JSON):**\n```json\n{\n  \"userId\": \"7e1b89f1-7df1-4bcd-9c57-123456789abc\",\n  \"token\": \"CfDJ8ExampleResetToken\",\n  \"newPassword\": \"@NewSecurePass123!\"\n}\n```\n\n**Fields:**\n- `userId` → User ID from reset email\n- `token` → Reset token from email\n- `newPassword` → New password (must meet requirements)\n\n### 📤 Response (200 OK)\n```json\n\"Password reset successfully. You can now login with your new password.\"\n```\n\n### ❌ Error Responses\n\n**400 Bad Request - Invalid Token**\n```json\n{\n  \"message\": \"Invalid or expired reset token\"\n}\n```\n\n**400 Bad Request - Weak Password**\n```json\n{\n  \"message\": \"Password does not meet security requirements\"\n}\n```\n\n**404 Not Found**\n```json\n{\n  \"message\": \"User not found\"\n}\n```\n\n**500 Internal Server Error**\n```json\n{\n  \"message\": \"Failed to reset password. Please try again.\"\n}\n```\n\n### 🔄 Usage:\n1. User receives reset email\n2. Clicks link and sees reset form\n3. Enters new password\n4. Submit this request\n5. Password is updated\n6. User can login with new password\n\n### 🔐 Complete Reset Flow:\n```\n1. POST /Auth/GenerateRestPassword?email=user@example.com\n   → Sends reset email\n\n2. GET /Auth/ResetPassword?userId=xxx&token=yyy\n   → Shows reset form\n\n3. POST /Auth/ResetPassword\n   Body: { userId, token, newPassword }\n   → Updates password\n\n4. POST /Auth/Login\n   → Login with new password\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "🚫 Block User (Admin Only)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Auth/ISBlock/:ID",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Auth",
+								"ISBlock",
+								":ID"
+							],
+							"variable": [
+								{
+									"key": "ID",
+									"value": "user-id-to-block",
+									"description": "User ID to block"
+								}
+							]
+						},
+						"description": "## 🚫 Block User (Admin Only)\n\n**Endpoint:**  \n`POST {{Url-APICO}}/Auth/ISBlock/{ID}`\n\n**Description:**  \nBlocks a user account, preventing them from logging in. Only administrators can block users. Blocked users cannot access the system until unblocked.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| ID | string | Yes | User ID to block |\n\n**Example URL:**\n```\nPOST {{Url-APICO}}/Auth/ISBlock/7e1b89f1-7df1-4bcd-9c57-123456789abc\n```\n\n### 📤 Response (200 OK)\n```json\n\"User blocked successfully\"\n```\n\n### ❌ Error Responses\n\n**401 Unauthorized - No Token**\n```json\n{\n  \"message\": \"Authorization token is required\"\n}\n```\n\n**403 Forbidden - Not Admin**\n```json\n{\n  \"message\": \"Access denied. Admin role required.\"\n}\n```\n\n**404 Not Found**\n```json\n{\n  \"message\": \"User not found\"\n}\n```\n\n**500 Internal Server Error**\n```json\n{\n  \"message\": \"Failed to block user\"\n}\n```\n\n### 🔄 Usage:\n1. Login as admin\n2. Get the user ID to block\n3. Send POST request with user ID\n4. User is blocked immediately\n5. Blocked user cannot login\n\n### ⚠️ Important:\n- **Admin role required**\n- Blocked users cannot login\n- Existing sessions may remain active\n- Can be undone with Unblock endpoint\n- Use responsibly - blocks user access completely"
+					},
+					"response": []
+				},
+				{
+					"name": "✅ Unblock User (Admin Only)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Auth/UNBlock/:ID",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Auth",
+								"UNBlock",
+								":ID"
+							],
+							"variable": [
+								{
+									"key": "ID",
+									"value": "user-id-to-unblock",
+									"description": "User ID to unblock"
+								}
+							]
+						},
+						"description": "## ✅ Unblock User (Admin Only)\n\n**Endpoint:**  \n`POST {{Url-APICO}}/Auth/UNBlock/{ID}`\n\n**Description:**  \nUnblocks a previously blocked user account, allowing them to login again. Only administrators can unblock users.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| ID | string | Yes | User ID to unblock |\n\n**Example URL:**\n```\nPOST {{Url-APICO}}/Auth/UNBlock/7e1b89f1-7df1-4bcd-9c57-123456789abc\n```\n\n### 📤 Response (200 OK)\n```json\n\"User unblocked successfully\"\n```\n\n### ❌ Error Responses\n\n**401 Unauthorized**\n```json\n{\n  \"message\": \"Authorization token is required\"\n}\n```\n\n**403 Forbidden - Not Admin**\n```json\n{\n  \"message\": \"Access denied. Admin role required.\"\n}\n```\n\n**404 Not Found**\n```json\n{\n  \"message\": \"User not found\"\n}\n```\n\n**500 Internal Server Error**\n```json\n{\n  \"message\": \"Failed to unblock user\"\n}\n```\n\n### 🔄 Usage:\n1. Login as admin\n2. Get the user ID to unblock\n3. Send POST request with user ID\n4. User is unblocked immediately\n5. User can now login normally\n\n### 📝 Notes:\n- **Admin role required**\n- Restores full account access\n- User can login immediately after unblocking"
+					},
+					"response": []
+				}
+			],
+			"description": "## 🔐 Authentication Endpoints\n\nComplete authentication flow including:\n- User registration with email confirmation\n- Login with JWT token generation\n- Password management (change, reset)\n- Email verification\n- User blocking/unblocking (Admin only)\n\n### Flow:\n1. **Register** → Sends confirmation email\n2. **Confirm Email** → Activates account\n3. **Login** → Returns JWT token\n4. Use token for protected endpoints\n\n### Security:\n- Passwords must be at least 6 characters\n- Email confirmation required\n- JWT tokens include user roles\n- Admin-only endpoints for user management"
+		},
+		{
+			"name": "📚 Categories",
+			"item": [
+				{
+					"name": "📚 Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Category",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Category"
+							]
+						},
+						"description": "## 📚 Get All Categories\n\n**Endpoint:**  \n`GET {{Url-APICO}}/Category`\n\n**Description:**  \nRetrieves all categories in the system. No authentication required - public access for browsing categories.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n\n**No body or parameters required.**\n\n### 📤 Response (200 OK)\n```json\n{\n  \"Message\": \"Category retrieved successfully\",\n  \"Data\": [\n    {\n      \"Id\": \"550e8400-e29b-41d4-a716-446655440001\",\n      \"Name\": \"Fiction\"\n    },\n    {\n      \"Id\": \"550e8400-e29b-41d4-a716-446655440002\",\n      \"Name\": \"Science\"\n    },\n    {\n      \"Id\": \"550e8400-e29b-41d4-a716-446655440003\",\n      \"Name\": \"Technology\"\n    },\n    {\n      \"Id\": \"550e8400-e29b-41d4-a716-446655440004\",\n      \"Name\": \"Biography\"\n    },\n    {\n      \"Id\": \"550e8400-e29b-41d4-a716-446655440005\",\n      \"Name\": \"History\"\n    }\n  ]\n}\n```\n\n**Fields:**\n- `Message` → Success message (localized)\n- `Data` → Array of category objects\n  - `Id` → Unique category identifier (GUID)\n  - `Name` → Category name\n\n### ❌ Error Responses\n\n**500 Internal Server Error**\n```json\n{\n  \"message\": \"Failed to retrieve categories\"\n}\n```\n\n### 🔄 Usage:\n1. Send GET request (no authentication needed)\n2. Receive list of all categories\n3. Use category IDs when creating/filtering books\n4. Display categories in UI for navigation\n\n### 📝 Use Cases:\n- Display category dropdown in book creation form\n- Show category filters in book search\n- Create category navigation menu\n- Populate category selection UI"
+					},
+					"response": []
+				},
+				{
+					"name": "🔍 Get Category By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Category/ById/:Id",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Category",
+								"ById",
+								":Id"
+							],
+							"variable": [
+								{
+									"key": "Id",
+									"value": "550e8400-e29b-41d4-a716-446655440001",
+									"description": "Category GUID"
+								}
+							]
+						},
+						"description": "## 🔍 Get Category By ID\n\n**Endpoint:**  \n`GET {{Url-APICO}}/Category/ById/{Id}`\n\n**Description:**  \nRetrieves a specific category by its ID. No authentication required.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n\n**Path Parameters:**\n\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| Id | guid | Yes | Category unique identifier |\n\n**Example URL:**\n```\nGET {{Url-APICO}}/Category/ById/550e8400-e29b-41d4-a716-446655440001\n```\n\n### 📤 Response (200 OK)\n```json\n{\n  \"Message\": \"Category retrieved successfully\",\n  \"Data\": {\n    \"Id\": \"550e8400-e29b-41d4-a716-446655440001\",\n    \"Name\": \"Fiction\"\n  }\n}\n```\n\n**Fields:**\n- `Message` → Success message (localized)\n- `Data` → Category object\n  - `Id` → Category GUID\n  - `Name` → Category name\n\n### ❌ Error Responses\n\n**404 Not Found**\n```json\n{\n  \"message\": \"Category not found\"\n}\n```\n\n**400 Bad Request - Invalid GUID**\n```json\n{\n  \"message\": \"Invalid category ID format\"\n}\n```\n\n### 🔄 Usage:\n1. Get category ID from list or book details\n2. Send GET request with category ID\n3. Receive category details\n4. Display category information"
+					},
+					"response": []
+				},
+				{
+					"name": "➕ Add Category (Admin/Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Philosophy\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-Library}}/Category/Add",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Category",
+								"Add"
+							]
+						},
+						"description": "## ➕ Add Category (Admin/Staff)\n\n**Endpoint:**  \n`POST {{Url-APICO}}/Category/Add`\n\n**Description:**  \nCreates a new category in the system. Requires admin or staff role.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Content-Type | application/json |\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Body (raw JSON):**\n```json\n{\n  \"name\": \"Philosophy\"\n}\n```\n\n**Fields:**\n- `name` → Category name (required, unique)\n\n### 📤 Response (200 OK)\n```json\n\"Category added successfully\"\n```\n\n### ❌ Error Responses\n\n**400 Bad Request - Validation Failed**\n```json\n{\n  \"Message\": \"Invalid data\",\n  \"Errors\": [\n    \"Name is required\"\n  ]\n}\n```\n\n**401 Unauthorized**\n```json\n{\n  \"message\": \"Authorization token is required\"\n}\n```\n\n**403 Forbidden - Insufficient Role**\n```json\n{\n  \"message\": \"Access denied. Admin or Staff role required.\"\n}\n```\n\n**500 Internal Server Error - Duplicate Name**\n```json\n{\n  \"message\": \"Category with this name already exists\"\n}\n```\n\n### 🔄 Usage:\n1. Login as admin or staff\n2. Send POST request with category name\n3. Category is created with unique GUID\n4. Use the category ID when adding books\n\n### 🔐 Required Role:\n- Admin ✅\n- Staff ✅\n- User ❌"
+					},
+					"response": []
+				},
+				{
+					"name": "✏️ Update Category (Admin/Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Category Name\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-Library}}/Category/Update/:Id",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Category",
+								"Update",
+								":Id"
+							],
+							"variable": [
+								{
+									"key": "Id",
+									"value": "550e8400-e29b-41d4-a716-446655440001",
+									"description": "Category GUID"
+								}
+							]
+						},
+						"description": "## ✏️ Update Category (Admin/Staff)\n\n**Endpoint:**  \n`PUT {{Url-APICO}}/Category/Update/{Id}`\n\n**Description:**  \nUpdates an existing category's information. Requires admin or staff role.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Content-Type | application/json |\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| Id | guid | Yes | Category ID to update |\n\n**Body (raw JSON):**\n```json\n{\n  \"name\": \"Updated Category Name\"\n}\n```\n\n**Fields:**\n- `name` → New category name (required)\n\n### 📤 Response (200 OK)\n```json\n\"Category updated successfully\"\n```\n\n### ❌ Error Responses\n\n**400 Bad Request**\n```json\n{\n  \"Message\": \"Invalid data\",\n  \"Errors\": [\n    \"Name is required\"\n  ]\n}\n```\n\n**401 Unauthorized**\n```json\n{\n  \"message\": \"Authorization token is required\"\n}\n```\n\n**403 Forbidden**\n```json\n{\n  \"message\": \"Access denied. Admin or Staff role required.\"\n}\n```\n\n**404 Not Found**\n```json\n{\n  \"message\": \"Category not found\"\n}\n```\n\n### 🔄 Usage:\n1. Login as admin or staff\n2. Get category ID to update\n3. Send PUT request with new name\n4. Category is updated immediately\n\n### 🔐 Required Role:\n- Admin ✅\n- Staff ✅\n- User ❌"
+					},
+					"response": []
+				},
+				{
+					"name": "🗑️ Delete Category (Admin/Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"description": "Language preference (en/ar)",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Category/Delete/:Id",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Category",
+								"Delete",
+								":Id"
+							],
+							"variable": [
+								{
+									"key": "Id",
+									"value": "550e8400-e29b-41d4-a716-446655440001",
+									"description": "Category GUID"
+								}
+							]
+						},
+						"description": "## 🗑️ Delete Category (Admin/Staff)\n\n**Endpoint:**  \n`DELETE {{Url-APICO}}/Category/Delete/{Id}`\n\n**Description:**  \nDeletes a category from the system. Requires admin or staff role. Note: Cannot delete categories that have books assigned to them.\n\n### ✅ Request\n\n**Headers:**\n\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| Id | guid | Yes | Category ID to delete |\n\n**Example URL:**\n```\nDELETE {{Url-APICO}}/Category/Delete/550e8400-e29b-41d4-a716-446655440001\n```\n\n### 📤 Response (200 OK)\n```json\n\"Category deleted successfully\"\n```\n\n### ❌ Error Responses\n\n**401 Unauthorized**\n```json\n{\n  \"message\": \"Authorization token is required\"\n}\n```\n\n**403 Forbidden**\n```json\n{\n  \"message\": \"Access denied. Admin or Staff role required.\"\n}\n```\n\n**404 Not Found**\n```json\n{\n  \"message\": \"Category not found\"\n}\n```\n\n**500 Internal Server Error - Has Related Books**\n```json\n{\n  \"message\": \"Cannot delete category. Books are assigned to this category.\"\n}\n```\n\n### 🔄 Usage:\n1. Login as admin or staff\n2. Ensure no books are assigned to this category\n3. Send DELETE request with category ID\n4. Category is permanently deleted\n\n### ⚠️ Important:\n- Cannot delete if books exist in this category\n- Deletion is permanent\n- No undo operation available\n\n### 🔐 Required Role:\n- Admin ✅\n- Staff ✅\n- User ❌"
+					},
+					"response": []
+				}
+			],
+			"description": "## 📚 Category Management\n\nManage book categories in the system.\n\n### Operations:\n- **Get All Categories** (Public)\n- **Get Category by ID** (Public)\n- **Add Category** (Admin/Staff)\n- **Update Category** (Admin/Staff)\n- **Delete Category** (Admin/Staff)\n\n### Permissions:\n- **Public**: Can view all categories\n- **Staff/Admin**: Full CRUD operations\n\n### Use Cases:\n- Browse books by category\n- Organize book catalog\n- Filter book searches\n- Manage content structure"
+		},
+		{
+			"name": "📖 Books",
+			"item": [
+				{
+					"name": "📖 Get All Books (with filters)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Book?Title=&Author=&PublishedDate=&ISBN=&LowestPrice=&HighestPrice=",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Book"
+							],
+							"query": [
+								{
+									"key": "Title",
+									"value": "",
+									"description": "Filter by title (partial match)"
+								},
+								{
+									"key": "Author",
+									"value": "",
+									"description": "Filter by author (partial match)"
+								},
+								{
+									"key": "PublishedDate",
+									"value": "",
+									"description": "Filter by date (YYYY-MM-DD)"
+								},
+								{
+									"key": "ISBN",
+									"value": "",
+									"description": "Filter by ISBN (partial match)"
+								},
+								{
+									"key": "LowestPrice",
+									"value": "",
+									"description": "Minimum price"
+								},
+								{
+									"key": "HighestPrice",
+									"value": "",
+									"description": "Maximum price"
+								}
+							]
+						},
+						"description": "## 📖 Get All Books (with filters)\n\n**Endpoint:**\n`GET {{Url-APICO}}/Book`\n\n**Description:**\nRetrieves all books with optional filtering by title, author, published date, ISBN, and price range. No authentication required - public access.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n\n**Query Parameters (all optional):**\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| Title | string | Filter by book title (partial match) |\n| Author | string | Filter by author name (partial match) |\n| PublishedDate | datetime | Filter by exact date (YYYY-MM-DD) |\n| ISBN | string | Filter by ISBN (partial match) |\n| LowestPrice | decimal | Minimum price filter |\n| HighestPrice | decimal | Maximum price filter |\n\n**Example URLs:**\n```\nGET {{Url-APICO}}/Book\nGET {{Url-APICO}}/Book?Title=Clean Code\nGET {{Url-APICO}}/Book?Author=Martin\nGET {{Url-APICO}}/Book?LowestPrice=10&HighestPrice=50\n```\n\n### 📤 Response (200 OK)\n```json\n{\n  \"Message\": \"Books retrieved successfully\",\n  \"Data\": [\n    {\n      \"Id\": \"660e8400-e29b-41d4-a716-446655440001\",\n      \"Title\": \"Clean Code\",\n      \"Author\": \"Robert C. Martin\",\n      \"PublishedDate\": \"2008-08-01T00:00:00\",\n      \"ISBN\": \"978-0132350884\",\n      \"Price\": 49.99,\n      \"CategoryId\": \"550e8400-e29b-41d4-a716-446655440003\",\n      \"Description\": \"A handbook of agile software craftsmanship\",\n      \"FilePdf\": \"https://res.cloudinary.com/du0v9lzzv/raw/upload/v1234567890/books/clean-code.pdf\"\n    }\n  ]\n}\n```\n\n**Fields:**\n- `Message` → Success message (localized)\n- `Data` → Array of book objects\n  - `Id` → Book GUID\n  - `Title` → Book title\n  - `Author` → Author name\n  - `PublishedDate` → Publication date\n  - `ISBN` → International Standard Book Number\n  - `Price` → Book price (decimal)\n  - `CategoryId` → Category GUID\n  - `Description` → Book description\n  - `FilePdf` → Cloudinary URL to PDF file\n\n### ❌ Error Responses\n\n**500 Internal Server Error**\n```json\n{ \"message\": \"Failed to retrieve books\" }\n```\n\n### 🔄 Usage:\n1. Send GET request with optional filters\n2. Combine multiple filters for refined search\n3. Use returned book IDs for other operations\n4. Access PDF via FilePdf URL\n\n### 📝 Filtering Examples:\n- Find all books by Martin: `?Author=Martin`\n- Books under $30: `?HighestPrice=30`\n- Technology books from 2020: `?CategoryId=xxx&PublishedDate=2020-01-01`\n"
+					},
+					"response": []
+				},
+				{
+					"name": "🔍 Get Book By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Book/ById/:Id",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Book",
+								"ById",
+								":Id"
+							],
+							"variable": [
+								{
+									"key": "Id",
+									"value": "660e8400-e29b-41d4-a716-446655440001"
+								}
+							]
+						},
+						"description": "## 🔍 Get Book By ID\n\n**Endpoint:**\n`GET {{Url-APICO}}/Book/ById/{Id}`\n\n**Description:**\nRetrieves a specific book by its unique identifier. No authentication required.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n\n**Path Parameters:**\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| Id | guid | Yes | Book unique identifier |\n\n### 📤 Response (200 OK)\n```json\n{\n  \"Message\": \"Book retrieved successfully\",\n  \"Data\": {\n    \"Id\": \"660e8400-e29b-41d4-a716-446655440001\",\n    \"Title\": \"Clean Code\",\n    \"Author\": \"Robert C. Martin\",\n    \"PublishedDate\": \"2008-08-01T00:00:00\",\n    \"ISBN\": \"978-0132350884\",\n    \"Price\": 49.99,\n    \"CategoryId\": \"550e8400-e29b-41d4-a716-446655440003\",\n    \"Description\": \"A handbook of agile software craftsmanship\",\n    \"FilePdf\": \"https://res.cloudinary.com/du0v9lzzv/raw/upload/v1234567890/books/clean-code.pdf\"\n  }\n}\n```\n\n### ❌ Error Responses\n\n**404 Not Found**\n```json\n{ \"message\": \"Book not found\" }\n```\n\n**400 Bad Request - Invalid GUID**\n```json\n{ \"message\": \"Invalid book ID format\" }\n```\n\n### 🔄 Usage:\n1. Get book ID from list or search results\n2. Send GET request with book ID\n3. Receive complete book details\n4. Display book information or download PDF\n"
+					},
+					"response": []
+				},
+				{
+					"name": "➕ Add Book with PDF (Admin/Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6ImFkbWluIiwidXNlcklkIjoiZTY2ZWE0MzUtODdmNi00Yzc0LThhZDUtNDQzMjJjNzY1MDY5IiwiRW1haWwiOiJhZG1pbkBzYWlmLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwiZXhwIjoxNzYyMjY1NDMyLCJpc3MiOiJTYWlmTGlicmFyeSIsImF1ZCI6IkxpYnJhcnkifQ.tp72UxFmR5AKv3tY1Bpu07ILzOVeD3gZL2mVlchx-V8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Title",
+									"value": "robit-=image",
+									"type": "text"
+								},
+								{
+									"key": "Author",
+									"value": "Robert C. Martin",
+									"type": "text"
+								},
+								{
+									"key": "PublishedDate",
+									"value": "2008-08-01",
+									"type": "text"
+								},
+								{
+									"key": "ISBN",
+									"value": "978-0132350884",
+									"type": "text"
+								},
+								{
+									"key": "Price",
+									"value": "49.99",
+									"type": "text"
+								},
+								{
+									"key": "CategoryId",
+									"value": "6dc2609d-c9a0-4cad-dabc-08de191992bb",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "A handbook of agile software craftsmanship",
+									"type": "text"
+								},
+								{
+									"key": "FilePdf",
+									"type": "file",
+									"src": "postman-cloud:///1f07224b-f06a-4c00-bff4-7c1920b73383"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Url-Library}}/Book/Add",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Book",
+								"Add"
+							]
+						},
+						"description": "## ➕ Add Book with PDF Upload (Admin/Staff)\n\n**Endpoint:**\n`POST {{Url-APICO}}/Book/Add`\n\n**Description:**\nCreates a new book with PDF file upload to Cloudinary. Requires admin or staff role.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Content-Type | multipart/form-data |\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Body (form-data):**\n| Field | Type | Required | Description |\n|-------|------|----------|-------------|\n| Title | text | Yes | Book title |\n| Author | text | Yes | Author name |\n| PublishedDate | text | Yes | Publication date (YYYY-MM-DD) |\n| ISBN | text | Yes | ISBN number |\n| Price | text | Yes | Book price (decimal) |\n| CategoryId | text | Yes | Category GUID |\n| Description | text | Yes | Book description |\n| FilePdf | file | Yes | PDF file of the book |\n\n### 📤 Response (200 OK)\n```json\n\"Book added successfully\"\n```\n\n### ❌ Error Responses\n\n**400 Bad Request**\n```json\n{\n  \"Message\": \"Invalid data\",\n  \"Errors\": [\"Title is required\", \"PDF file is required\"]\n}\n```\n\n**403 Forbidden**\n```json\n{ \"message\": \"Access denied. Admin or Staff role required.\" }\n```\n\n### 🔄 Usage:\n1. Login as admin or staff\n2. Prepare book data and PDF file\n3. Send POST request with form-data\n4. PDF is uploaded to Cloudinary\n5. Book is created with PDF URL\n\n### 📤 File Upload Process:\n1. Select PDF file\n2. File is uploaded to Cloudinary\n3. Cloudinary returns public URL\n4. URL is saved in database FilePdf field\n5. URL is accessible for downloads\n\n### 🔐 Required Role:\n- Admin ✅\n- Staff ✅\n- User ❌\n"
+					},
+					"response": []
+				},
+				{
+					"name": "✏️ Update Book (Admin/Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Clean Code - Updated Edition\",\n  \"author\": \"Robert C. Martin\",\n  \"publishedDate\": \"2008-08-01T00:00:00\",\n  \"isbn\": \"978-0132350884\",\n  \"price\": 54.99,\n  \"categoryId\": \"550e8400-e29b-41d4-a716-446655440003\",\n  \"description\": \"Updated: A handbook of agile software craftsmanship\",\n  \"filePdf\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-Library}}/Book/Update/:Id",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Book",
+								"Update",
+								":Id"
+							],
+							"variable": [
+								{
+									"key": "Id",
+									"value": "660e8400-e29b-41d4-a716-446655440001"
+								}
+							]
+						},
+						"description": "## ✏️ Update Book (Admin/Staff)\n\n**Endpoint:**\n`PUT {{Url-APICO}}/Book/Update/{Id}`\n\n**Description:**\nUpdates an existing book's information. Requires admin or staff role.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Content-Type | application/json |\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| Id | guid | Yes | Book ID to update |\n\n**Body (raw JSON):**\n```json\n{\n  \"title\": \"Clean Code - Updated Edition\",\n  \"author\": \"Robert C. Martin\",\n  \"publishedDate\": \"2008-08-01T00:00:00\",\n  \"isbn\": \"978-0132350884\",\n  \"price\": 54.99,\n  \"categoryId\": \"550e8400-e29b-41d4-a716-446655440003\",\n  \"description\": \"Updated description\",\n  \"filePdf\": null\n}\n```\n\n**Note:** Set `filePdf: null` when updating via JSON. To update the PDF file, use form-data format instead.\n\n### 📤 Response (200 OK)\n```json\n\"Book updated successfully\"\n```\n\n### ❌ Error Responses\n\n**404 Not Found**\n```json\n{ \"message\": \"Book not found\" }\n```\n\n**403 Forbidden**\n```json\n{ \"message\": \"Access denied. Admin or Staff role required.\" }\n```\n\n### 🔄 Usage:\n1. Login as admin or staff\n2. Get book ID to update\n3. Send PUT request with updated fields\n4. Book is updated immediately\n\n### 🔐 Required Role:\n- Admin ✅\n- Staff ✅\n- User ❌\n"
+					},
+					"response": []
+				},
+				{
+					"name": "🗑️ Delete Book (Admin/Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6ImFkbWluIiwidXNlcklkIjoiZTY2ZWE0MzUtODdmNi00Yzc0LThhZDUtNDQzMjJjNzY1MDY5IiwiRW1haWwiOiJhZG1pbkBzYWlmLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwiZXhwIjoxNzYyMjY1NDMyLCJpc3MiOiJTYWlmTGlicmFyeSIsImF1ZCI6IkxpYnJhcnkifQ.tp72UxFmR5AKv3tY1Bpu07ILzOVeD3gZL2mVlchx-V8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Book/Delete/:Id",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Book",
+								"Delete",
+								":Id"
+							],
+							"variable": [
+								{
+									"key": "Id",
+									"value": "36e2842a-43f2-4bb8-6d4e-08de1ba3b2e2"
+								}
+							]
+						},
+						"description": "## 🗑️ Delete Book (Admin/Staff)\n\n**Endpoint:**\n`DELETE {{Url-APICO}}/Book/Delete/{Id}`\n\n**Description:**\nPermanently deletes a book from the system. Requires admin or staff role.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| Id | guid | Yes | Book ID to delete |\n\n### 📤 Response (200 OK)\n```json\n\"Book deleted successfully\"\n```\n\n### ❌ Error Responses\n\n**404 Not Found**\n```json\n{ \"message\": \"Book not found\" }\n```\n\n**403 Forbidden**\n```json\n{ \"message\": \"Access denied. Admin or Staff role required.\" }\n```\n\n### 🔄 Usage:\n1. Login as admin or staff\n2. Get book ID to delete\n3. Send DELETE request\n4. Book is permanently deleted\n\n### ⚠️ Important:\n- Deletion is permanent\n- No undo operation\n- Associated PDF remains in Cloudinary\n\n### 🔐 Required Role:\n- Admin ✅\n- Staff ✅\n- User ❌\n"
+					},
+					"response": []
+				}
+			],
+			"description": "Book management with PDF upload - CRUD operations, filtering, Cloudinary integration"
+		},
+		{
+			"name": "📚 Reading Tracking",
+			"item": [
+				{
+					"name": "📖 Start Reading (User)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Read/start/:BookId",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Read",
+								"start",
+								":BookId"
+							],
+							"variable": [
+								{
+									"key": "BookId",
+									"value": "660e8400-e29b-41d4-a716-446655440001"
+								}
+							]
+						},
+						"description": "## 📖 Start Reading (User)\n\n**Endpoint:**\n`POST {{Url-APICO}}/Read/start/{BookId}`\n\n**Description:**\nMarks that the authenticated user has started reading a book. User ID is extracted from JWT token. Requires authentication.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| BookId | guid | Yes | Book GUID to start reading |\n\n### 📤 Response (200 OK)\n```json\n\"Reading started successfully\"\n```\n\n### ❌ Error Responses\n\n**401 Unauthorized**\n```json\n{ \"message\": \"User ID not found in claims\" }\n```\n\n**404 Not Found**\n```json\n{ \"message\": \"Book not found\" }\n```\n\n### 🔄 Usage:\n1. User logs in\n2. User selects a book to read\n3. Send POST request with book ID\n4. Reading record is created with current timestamp\n5. Track user's reading history\n\n### 📝 Process:\n1. Extract userId from JWT token claims\n2. Validate book exists\n3. Create reading record\n4. Save with ReadDate = current timestamp\n"
+					},
+					"response": []
+				},
+				{
+					"name": "📖 Start Reading for User (Admin/Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Read/start/:UserId/:BookId",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Read",
+								"start",
+								":UserId",
+								":BookId"
+							],
+							"variable": [
+								{
+									"key": "UserId",
+									"value": "user-id-123"
+								},
+								{
+									"key": "BookId",
+									"value": "660e8400-e29b-41d4-a716-446655440001"
+								}
+							]
+						},
+						"description": "## 📖 Start Reading for User (Admin/Staff)\n\n**Endpoint:**\n`POST {{Url-APICO}}/Read/start/{UserId}/{BookId}`\n\n**Description:**\nAdmin or staff can mark that a specific user has started reading a book. Requires admin or staff role.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| UserId | string | Yes | User ID |\n| BookId | guid | Yes | Book GUID |\n\n### 📤 Response (200 OK)\n```json\n\"Reading started successfully\"\n```\n\n### ❌ Error Responses\n\n**403 Forbidden**\n```json\n{ \"message\": \"Access denied. Admin or Staff role required.\" }\n```\n\n### 🔄 Usage:\n1. Login as admin or staff\n2. Get user ID and book ID\n3. Send POST request\n4. Reading record is created for that user\n\n### 📝 Use Cases:\n- Staff assigns reading to students\n- Admin tracks reading assignments\n- Bulk reading assignments\n\n### 🔐 Required Role:\n- Admin ✅\n- Staff ✅\n- User ❌\n"
+					},
+					"response": []
+				},
+				{
+					"name": "📊 Get Reads By Book (Admin/Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Read/ByBooks/:BookId",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Read",
+								"ByBooks",
+								":BookId"
+							],
+							"variable": [
+								{
+									"key": "BookId",
+									"value": "660e8400-e29b-41d4-a716-446655440001"
+								}
+							]
+						},
+						"description": "## 📊 Get Reads By Book (Admin/Staff)\n\n**Endpoint:**\n`GET {{Url-APICO}}/Read/ByBooks/{BookId}`\n\n**Description:**\nGet all users who have read a specific book. Requires admin or staff role.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| BookId | guid | Yes | Book GUID |\n\n### 📤 Response (200 OK)\n```json\n{\n  \"Message\": \"Reads retrieved successfully\",\n  \"Data\": [\n    {\n      \"Id\": \"user-123\",\n      \"UserName\": \"john_doe\",\n      \"Email\": \"john.doe@example.com\",\n      \"phoneNumber\": \"+1234567890\"\n    },\n    {\n      \"Id\": \"user-456\",\n      \"UserName\": \"jane_smith\",\n      \"Email\": \"jane.smith@example.com\",\n      \"phoneNumber\": \"+0987654321\"\n    }\n  ]\n}\n```\n\n**Fields:**\n- `Message` → Success message\n- `Data` → Array of users who read the book\n  - `Id` → User ID\n  - `UserName` → Username\n  - `Email` → User email\n  - `phoneNumber` → Phone number\n\n### ❌ Error Responses\n\n**403 Forbidden**\n```json\n{ \"message\": \"Access denied. Admin or Staff role required.\" }\n```\n\n**404 Not Found**\n```json\n{ \"message\": \"Book not found\" }\n```\n\n### 🔄 Usage:\n1. Admin/Staff logs in\n2. Select a book to view statistics\n3. Send GET request with book ID\n4. View list of users who read the book\n\n### 📝 Use Cases:\n- Book popularity statistics\n- Reader demographics\n- Reading analytics\n- Engagement tracking\n\n### 🔐 Required Role:\n- Admin ✅\n- Staff ✅\n- User ❌\n"
+					},
+					"response": []
+				},
+				{
+					"name": "📊 Get Reads By User (Admin/Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Read/ByUser/:UserId",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Read",
+								"ByUser",
+								":UserId"
+							],
+							"variable": [
+								{
+									"key": "UserId",
+									"value": "user-id-123"
+								}
+							]
+						},
+						"description": "## 📊 Get Reads By User (Admin/Staff)\n\n**Endpoint:**\n`GET {{Url-APICO}}/Read/ByUser/{UserId}`\n\n**Description:**\nGet all books read by a specific user. Requires admin or staff role.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| UserId | string | Yes | User ID |\n\n### 📤 Response (200 OK)\n```json\n{\n  \"Message\": \"Reads retrieved successfully\",\n  \"Data\": [\n    {\n      \"Id\": \"660e8400-e29b-41d4-a716-446655440001\",\n      \"Title\": \"Clean Code\",\n      \"Author\": \"Robert C. Martin\",\n      \"PublishedDate\": \"2008-08-01T00:00:00\",\n      \"ISBN\": \"978-0132350884\",\n      \"Price\": 49.99,\n      \"CategoryId\": \"550e8400-e29b-41d4-a716-446655440003\",\n      \"Description\": \"A handbook of agile software craftsmanship\",\n      \"FilePdf\": \"https://res.cloudinary.com/du0v9lzzv/raw/upload/v1234567890/books/clean-code.pdf\"\n    }\n  ]\n}\n```\n\n**Fields:**\n- `Message` → Success message\n- `Data` → Array of books read by user (full book details)\n\n### ❌ Error Responses\n\n**403 Forbidden**\n```json\n{ \"message\": \"Access denied. Admin or Staff role required.\" }\n```\n\n**404 Not Found**\n```json\n{ \"message\": \"User not found\" }\n```\n\n### 🔄 Usage:\n1. Admin/Staff logs in\n2. Select a user to view reading history\n3. Send GET request with user ID\n4. View list of books read by user\n\n### 📝 Use Cases:\n- User reading history\n- Reading recommendations\n- Progress tracking\n- Reading analytics\n\n### 🔐 Required Role:\n- Admin ✅\n- Staff ✅\n- User ❌\n"
+					},
+					"response": []
+				}
+			],
+			"description": "Track user reading activity - Start reading, view reading history and statistics"
+		},
+		{
+			"name": "💳 Publisher/Checkout",
+			"item": [
+				{
+					"name": "💳 Create Purchase (Stripe or Cash)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bookId\": [\n    \"660e8400-e29b-41d4-a716-446655440001\",\n    \"660e8400-e29b-41d4-a716-446655440002\"\n  ],\n  \"paymentMethod\": \"stripe\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Url-Library}}/Publisher/Add",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Publisher",
+								"Add"
+							]
+						},
+						"description": "## 💳 Create Purchase (Checkout)\n\n**Endpoint:**\n`POST {{Url-APICO}}/Publisher/Add`\n\n**Description:**\nCreate a purchase/checkout transaction. PaymentMethod can be 'stripe' (creates Stripe checkout session) or 'cash'. Requires authentication.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Content-Type | application/json |\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Body (raw JSON):**\n```json\n{\n  \"bookId\": [\n    \"660e8400-e29b-41d4-a716-446655440001\",\n    \"660e8400-e29b-41d4-a716-446655440002\"\n  ],\n  \"paymentMethod\": \"stripe\"\n}\n```\n\n**Fields:**\n- `bookId` → Array of book GUIDs to purchase\n- `paymentMethod` → Payment method: \"stripe\" or \"cash\"\n\n### 📤 Response (200 OK) - Stripe Payment\n```json\n{\n  \"message\": \"Publisher added successfully.\",\n  \"result\": \"https://checkout.stripe.com/c/pay/cs_test_a1234567890abcdefghijklmnopqrstuvwxyz\"\n}\n```\n\n### 📤 Response (200 OK) - Cash Payment\n```json\n{\n  \"message\": \"Publisher added successfully.\",\n  \"result\": \"Cash payment recorded\"\n}\n```\n\n**Fields:**\n- `message` → Success message (localized)\n- `result` → Stripe checkout URL or confirmation message\n\n### ❌ Error Responses\n\n**400 Bad Request**\n```json\n{ \"message\": \"Transaction data cannot be null.\" }\n```\n\n**401 Unauthorized**\n```json\n{ \"message\": \"User ID not found in token.\" }\n```\n\n**404 Not Found**\n```json\n{ \"message\": \"One or more books not found\" }\n```\n\n### 🔄 Usage - Stripe Payment:\n1. User selects books to purchase\n2. Send POST request with book IDs and paymentMethod=\"stripe\"\n3. Receive Stripe checkout URL\n4. Redirect user to Stripe checkout page\n5. User completes payment on Stripe\n6. User is redirected back to success/cancel URL\n\n### 🔄 Usage - Cash Payment:\n1. User selects books to purchase\n2. Send POST request with book IDs and paymentMethod=\"cash\"\n3. Transaction is recorded\n4. Handle cash payment offline\n\n### 💰 Payment Methods:\n- **stripe** → Online card payment via Stripe\n- **cash** → Cash payment (tracked in system)\n\n### 🔐 Required Auth:\n- Any authenticated user\n"
+					},
+					"response": []
+				},
+				{
+					"name": "📜 Get All Publishers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Publisher/Get",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Publisher",
+								"Get"
+							]
+						},
+						"description": "## 📜 Get All Publishers\n\n**Endpoint:**\n`GET {{Url-APICO}}/Publisher/Get`\n\n**Description:**\nGet all publisher/purchase records. No authentication required.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n\n### 📤 Response (200 OK)\n```json\n[\n  {\n    \"Id\": \"770e8400-e29b-41d4-a716-446655440001\",\n    \"PublisherDate\": \"2025-11-04T10:30:00\",\n    \"UserId\": \"user-123\",\n    \"BookId\": \"660e8400-e29b-41d4-a716-446655440001\",\n    \"Books\": [\n      {\n        \"Id\": \"660e8400-e29b-41d4-a716-446655440001\",\n        \"Title\": \"Clean Code\",\n        \"Author\": \"Robert C. Martin\",\n        \"PublishedDate\": \"2008-08-01T00:00:00\",\n        \"ISBN\": \"978-0132350884\",\n        \"Price\": 49.99,\n        \"CategoryId\": \"550e8400-e29b-41d4-a716-446655440003\",\n        \"Description\": \"A handbook of agile software craftsmanship\",\n        \"FilePdf\": \"https://res.cloudinary.com/du0v9lzzv/raw/upload/v1234567890/books/clean-code.pdf\"\n      }\n    ]\n  }\n]\n```\n\n**Fields:**\n- `Id` → Publisher/Purchase record GUID\n- `PublisherDate` → Purchase timestamp\n- `UserId` → User who made the purchase\n- `BookId` → Main book ID (first book in purchase)\n- `Books` → Array of purchased books (full details)\n\n### 🔄 Usage:\n1. Send GET request (no auth required)\n2. Receive all purchase records\n3. Display sales history\n4. Generate reports\n\n### 📝 Use Cases:\n- Sales history\n- Revenue analytics\n- Purchase tracking\n- Admin dashboard\n"
+					},
+					"response": []
+				},
+				{
+					"name": "🔍 Get Publisher By ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Publisher/GetById/:Id",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Publisher",
+								"GetById",
+								":Id"
+							],
+							"variable": [
+								{
+									"key": "Id",
+									"value": "770e8400-e29b-41d4-a716-446655440001"
+								}
+							]
+						},
+						"description": "## 🔍 Get Publisher By ID\n\n**Endpoint:**\n`GET {{Url-APICO}}/Publisher/GetById/{Id}`\n\n**Description:**\nGet a specific publisher/purchase record by ID. No authentication required.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n\n**Path Parameters:**\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| Id | guid | Yes | Publisher/Purchase GUID |\n\n### 📤 Response (200 OK)\n```json\n{\n  \"Id\": \"770e8400-e29b-41d4-a716-446655440001\",\n  \"PublisherDate\": \"2025-11-04T10:30:00\",\n  \"UserId\": \"user-123\",\n  \"BookId\": \"660e8400-e29b-41d4-a716-446655440001\",\n  \"Books\": [\n    {\n      \"Id\": \"660e8400-e29b-41d4-a716-446655440001\",\n      \"Title\": \"Clean Code\",\n      \"Author\": \"Robert C. Martin\",\n      \"PublishedDate\": \"2008-08-01T00:00:00\",\n      \"ISBN\": \"978-0132350884\",\n      \"Price\": 49.99,\n      \"CategoryId\": \"550e8400-e29b-41d4-a716-446655440003\",\n      \"Description\": \"A handbook of agile software craftsmanship\",\n      \"FilePdf\": \"https://res.cloudinary.com/du0v9lzzv/raw/upload/v1234567890/books/clean-code.pdf\"\n    }\n  ]\n}\n```\n\n### ❌ Error Responses\n\n**404 Not Found**\n```json\n{ \"message\": \"Publisher record not found\" }\n```\n\n### 🔄 Usage:\n1. Get publisher ID from list\n2. Send GET request with ID\n3. Receive purchase details\n4. Display order information\n\n### 📝 Use Cases:\n- Order details\n- Invoice generation\n- Purchase confirmation\n- Receipt display\n"
+					},
+					"response": []
+				},
+				{
+					"name": "🗑️ Delete Publisher (Admin/Staff)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "{{Lang}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{Url-Library}}/Publisher/Delete/:PublisherId",
+							"host": [
+								"{{Url-Library}}"
+							],
+							"path": [
+								"Publisher",
+								"Delete",
+								":PublisherId"
+							],
+							"variable": [
+								{
+									"key": "PublisherId",
+									"value": "770e8400-e29b-41d4-a716-446655440001"
+								}
+							]
+						},
+						"description": "## 🗑️ Delete Publisher (Admin/Staff)\n\n**Endpoint:**\n`DELETE {{Url-APICO}}/Publisher/Delete/{PublisherId}`\n\n**Description:**\nDelete a publisher/purchase record. Requires admin or staff role.\n\n### ✅ Request\n\n**Headers:**\n| Key | Value |\n|-----|-------|\n| Accept-Language | en / ar |\n| Authorization | Bearer {{token}} |\n\n**Path Parameters:**\n| Parameter | Type | Required | Description |\n|-----------|------|----------|-------------|\n| PublisherId | guid | Yes | Publisher/Purchase GUID |\n\n### 📤 Response (200 OK)\n```json\n\"Publisher deleted successfully\"\n```\n\n### ❌ Error Responses\n\n**403 Forbidden**\n```json\n{ \"message\": \"Access denied. Admin or Staff role required.\" }\n```\n\n**404 Not Found**\n```json\n{ \"message\": \"Publisher record not found\" }\n```\n\n### 🔄 Usage:\n1. Login as admin or staff\n2. Get publisher ID to delete\n3. Send DELETE request\n4. Record is permanently deleted\n\n### 📝 Use Cases:\n- Cancel order\n- Remove test data\n- Correct errors\n- Admin cleanup\n\n### 🔐 Required Role:\n- Admin ✅\n- Staff ✅\n- User ❌\n"
+					},
+					"response": []
+				}
+			],
+			"description": "Book purchase functionality - Stripe and Cash payment methods"
+		}
+	],
+	"variable": [
+		{
+			"key": "Url-APICO",
+			"value": "https://localhost:7085",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Lang",
+			"value": "en",
+			"type": "string"
+		}
+	]
+}

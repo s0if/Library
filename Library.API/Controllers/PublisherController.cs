@@ -40,6 +40,8 @@ namespace Library.API.Controllers
                 result
             });
         }
+        [Authorize(Roles = "admin,staff")]
+        
         [HttpGet("GetById/{Id}")]
         public async Task<ActionResult<GetPublisherDTOs>> GetById(Guid Id,
             [FromServices] GetPublisherUseCase _getPublisher)
@@ -47,6 +49,7 @@ namespace Library.API.Controllers
             var result=await _getPublisher.ExecuteById(Id);
             return Ok(result);
         }
+        [Authorize(Roles = "admin,staff")]
         [HttpGet("Get")]
         public async Task<IActionResult> Get(
             [FromServices] GetPublisherUseCase _getPublisher)
