@@ -125,9 +125,6 @@ namespace Library.PERSISTENCE.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("CategoryId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -152,8 +149,6 @@ namespace Library.PERSISTENCE.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("CategoryId1");
 
                     b.HasIndex("PublisherId");
 
@@ -378,14 +373,10 @@ namespace Library.PERSISTENCE.Migrations
             modelBuilder.Entity("Library.DOMAIN.MODEL.Books", b =>
                 {
                     b.HasOne("Library.DOMAIN.MODEL.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Library.DOMAIN.MODEL.Category", null)
                         .WithMany("Books")
-                        .HasForeignKey("CategoryId1");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Library.DOMAIN.MODEL.Publisher", null)
                         .WithMany("Book")

@@ -187,3 +187,5 @@ C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\ref
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\Library.API.pdb
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\Library.API.genruntimeconfig.cache
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\ref\Library.API.dll
+C:\Users\Saif\Desktop\Project\Library\Library\Library.API\bin\Release\net9.0\web.config
+C:\Users\Saif\Desktop\Project\Library\Library\Library.API\bin\Release\net9.0\appsettings.Production.json

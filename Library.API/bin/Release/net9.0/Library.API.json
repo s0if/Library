@@ -1,0 +1,917 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Library.API | v1",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/Auth/Register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterDTOs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Auth/Login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginDTOs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Auth/ConfirmEmail": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "token",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Auth/ChangePassword": {
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChangePasswordDTOs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Auth/GenerateRestPassword": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Auth/ResetPassword": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "token",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordRequestDTOs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Auth/ISBlock/{ID}": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Auth/UNBlock/{ID}": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Book/Add": {
+      "post": {
+        "tags": [
+          "Book"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "Title",
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "Author",
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "PublishedDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "formData",
+            "name": "ISBN",
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "Price",
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "in": "formData",
+            "name": "CategoryId",
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "formData",
+            "name": "Description",
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "FilePdf"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Book/Update/{Id}": {
+      "put": {
+        "tags": [
+          "Book"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TransactionBookDTOs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Book/ById/{Id}": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetBookDTOs"
+            }
+          }
+        }
+      }
+    },
+    "/Book": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "Title",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "Author",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "PublishedDate",
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "in": "query",
+            "name": "ISBN",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "LowestPrice",
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "in": "query",
+            "name": "HighestPrice",
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/GetBookDTOs"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Book/Delete/{Id}": {
+      "delete": {
+        "tags": [
+          "Book"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Category/Add": {
+      "post": {
+        "tags": [
+          "Category"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TransactionCategoryDTOs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Category/ById/{Id}": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Category": {
+      "get": {
+        "tags": [
+          "Category"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Category/Update/{Id}": {
+      "put": {
+        "tags": [
+          "Category"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TransactionCategoryDTOs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Category/Delete/{Id}": {
+      "delete": {
+        "tags": [
+          "Category"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Publisher/Add": {
+      "post": {
+        "tags": [
+          "Publisher"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TransactionCheckoutDTOs"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Publisher/GetById/{Id}": {
+      "get": {
+        "tags": [
+          "Publisher"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "Id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GetPublisherDTOs"
+            }
+          }
+        }
+      }
+    },
+    "/Publisher/Get": {
+      "get": {
+        "tags": [
+          "Publisher"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Publisher/Delete/{PublisherId}": {
+      "delete": {
+        "tags": [
+          "Publisher"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PublisherId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Read/start/{BookId}": {
+      "post": {
+        "tags": [
+          "Read"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "BookId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Read/start/{UserId}/{BookId}": {
+      "post": {
+        "tags": [
+          "Read"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "UserId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "BookId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Read/ByBooks/{BookId}": {
+      "get": {
+        "tags": [
+          "Read"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "BookId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/Read/ByUser/{UserId}": {
+      "get": {
+        "tags": [
+          "Read"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "UserId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ChangePasswordDTOs": {
+      "required": [
+        "currentPassword",
+        "newPassword"
+      ],
+      "type": "object",
+      "properties": {
+        "currentPassword": {
+          "type": "string"
+        },
+        "newPassword": {
+          "minLength": 6,
+          "type": "string"
+        }
+      }
+    },
+    "GetBookDTOs": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "publishedDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "isbn": {
+          "type": "string"
+        },
+        "price": {
+          "format": "double",
+          "type": "number"
+        },
+        "categoryId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "filePdf": {
+          "type": "string"
+        }
+      }
+    },
+    "GetPublisherDTOs": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "publisherDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "bookId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "books": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetBookDTOs"
+          }
+        }
+      }
+    },
+    "IFormFile": {
+      "format": "binary",
+      "type": "string"
+    },
+    "LoginDTOs": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "RegisterDTOs": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "ResetPasswordRequestDTOs": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        }
+      }
+    },
+    "TransactionBookDTOs": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "publishedDate": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "isbn": {
+          "type": "string"
+        },
+        "price": {
+          "format": "double",
+          "type": "number"
+        },
+        "categoryId": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "filePdf": {
+          "$ref": "#/definitions/IFormFile"
+        }
+      }
+    },
+    "TransactionCategoryDTOs": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "TransactionCheckoutDTOs": {
+      "type": "object",
+      "properties": {
+        "bookId": {
+          "type": "array",
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          }
+        },
+        "paymentMethod": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Auth"
+    },
+    {
+      "name": "Book"
+    },
+    {
+      "name": "Category"
+    },
+    {
+      "name": "Publisher"
+    },
+    {
+      "name": "Read"
+    }
+  ]
+}

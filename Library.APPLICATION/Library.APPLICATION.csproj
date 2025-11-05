@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.26.0" />
     <PackageReference Include="CloudinaryDotNet" Version="1.27.8" />
+    <PackageReference Include="FluentValidation" Version="12.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.10" />
     <PackageReference Include="Stripe.net" Version="49.1.0" />

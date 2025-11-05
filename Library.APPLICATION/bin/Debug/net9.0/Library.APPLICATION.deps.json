@@ -10,6 +10,7 @@
         "dependencies": {
           "Azure.Storage.Blobs": "12.26.0",
           "CloudinaryDotNet": "1.27.8",
+          "FluentValidation": "12.1.0",
           "Library.DOMAIN": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "9.0.10",
           "Microsoft.AspNetCore.Identity.UI": "9.0.10",
@@ -66,6 +67,14 @@
           "lib/netstandard2.0/CloudinaryDotNet.dll": {
             "assemblyVersion": "1.27.8.0",
             "fileVersion": "1.27.8.0"
+          }
+        }
+      },
+      "FluentValidation/12.1.0": {
+        "runtime": {
+          "lib/net8.0/FluentValidation.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.1.0.0"
           }
         }
       },
@@ -904,6 +913,13 @@
       "sha512": "sha512-K2PPU5SLn0SJ+62OOC5Wr3pCuk1ezLnKmgY/6A53bM6Ysvr27utKMZ8NTvJOG3eU1G8vykNQyhOKO4/shXDl1Q==",
       "path": "cloudinarydotnet/1.27.8",
       "hashPath": "cloudinarydotnet.1.27.8.nupkg.sha512"
+    },
+    "FluentValidation/12.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FqWEn8BdbbFEHGanj9K8SVo+LyBeFWy2rolaE+e1TNUbifr8M7Iss+I1AqTSc8kjKtvjl/WN4XIHiRpslh42bA==",
+      "path": "fluentvalidation/12.1.0",
+      "hashPath": "fluentvalidation.12.1.0.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/9.0.10": {
       "type": "package",

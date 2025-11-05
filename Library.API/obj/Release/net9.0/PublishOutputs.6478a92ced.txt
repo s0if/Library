@@ -2,8 +2,10 @@ C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\Pub
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\PubTmp\Out\Template\ConfirmEmail.html
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\PubTmp\Out\Template\ForgetPassword.html
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\PubTmp\Out\Template\ResetPassword.html
+C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\PubTmp\Out\web.config
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\PubTmp\Out\appsettings.Development.json
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\PubTmp\Out\appsettings.json
+C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\PubTmp\Out\appsettings.Production.json
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\PubTmp\Out\Library.API.dll
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\PubTmp\Out\Library.API.runtimeconfig.json
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\obj\Release\net9.0\PubTmp\Out\Library.API.pdb

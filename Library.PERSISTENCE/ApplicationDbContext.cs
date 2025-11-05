@@ -24,10 +24,9 @@ namespace Library.PERSISTENCE
             base.OnModelCreating(builder);
           
             builder.Entity<Books>()
-                .HasOne(b => b.Category)
-                .WithMany()
-                .HasForeignKey(r => r.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .Property(b => b.Price)
+                .HasColumnType("decimal(18,2)");
+
         }
     }
 }

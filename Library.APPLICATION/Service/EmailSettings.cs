@@ -23,7 +23,7 @@ namespace Library.APPLICATION.Service
         private string SmtpServer => _configuration.GetSection("EmailSettings")["SmtpServer"];
         private int SmtpPort => int.Parse( _configuration.GetSection("EmailSettings")["SmtpPort"]);
         private string SenderEmail => _configuration.GetSection("EmailSettings")["SenderEmail"];
-        private string SenderToken => _configuration.GetSection("EmailSettings")["semderToken"];
+        private string SenderToken => _configuration.GetSection("EmailSettings")["senderToken"];
         public async Task SendEmailAsync(string Receivers, string Subject, string Body)
         {
 

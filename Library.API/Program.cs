@@ -1,5 +1,3 @@
-
-using CloudinaryDotNet;
 using Library.API.Middleware;
 using Library.APPLICATION.DTO.Auth;
 using Library.APPLICATION.DTO.Checkout;
@@ -12,10 +10,10 @@ using Library.APPLICATION.UseCase.Category;
 using Library.APPLICATION.UseCase.Publisher;
 using Library.APPLICATION.UseCase.Read;
 using Library.APPLICATION.Utils;
-using Library.PERSISTENCE;
-using Library.PERSISTENCE.Repository;
 using Library.DOMAIN.Interface;
 using Library.DOMAIN.MODEL;
+using Library.PERSISTENCE;
+using Library.PERSISTENCE.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using Serilog;
 using Stripe;
 using System.Globalization;
 using System.Text;
@@ -108,7 +107,7 @@ namespace Library.API
                     });
             });
 
-            // Cloudinary Settings
+            // FILE Settings
             builder.Services.AddScoped<UploadFile>();
 
             builder.Services.AddAuthentication(
@@ -154,6 +153,10 @@ namespace Library.API
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+            builder.Host.UseSerilog((context, configuration) =>
+            {
+                configuration.ReadFrom.Configuration(context.Configuration);
+            });
 
             var app = builder.Build();
 
@@ -168,6 +171,7 @@ namespace Library.API
             var seedData = scope.ServiceProvider.GetRequiredService<SeedData>();
             await seedData.DataSeedings();
 
+           
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             app.UseRequestLocalization(app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
             app.UseHttpsRedirection();
