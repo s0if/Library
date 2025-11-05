@@ -199,3 +199,4 @@ C:\Users\Saif\Desktop\Project\Library\Library\Library.API\bin\Debug\net9.0\Seril
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\bin\Debug\net9.0\Serilog.Sinks.Console.dll
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\bin\Debug\net9.0\Serilog.Sinks.Debug.dll
 C:\Users\Saif\Desktop\Project\Library\Library\Library.API\bin\Debug\net9.0\Serilog.Sinks.File.dll
+C:\Users\Saif\Desktop\Project\Library\Library\Library.API\bin\Debug\net9.0\Serilog.Sinks.AzureBlobStorage.dll
