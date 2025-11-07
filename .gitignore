@@ -1,1 +1,89 @@
-.vs
+#################################
+# Build Folders and Artifacts
+#################################
+bin/
+obj/
+**/bin/
+**/obj/
+publish/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.runtimeconfig.json
+*.nuget.cache
+
+#################################
+# Logs
+#################################
+*.log
+
+#################################
+# User-Specific Files
+#################################
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.sln.iml
+
+#################################
+# Configuration Files (Local Only)
+#################################
+appsettings.Development.json
+appsettings.Local.json
+appsettings.json
+TSE-Commerce.PL/appsettings.json
+secrets.json
+.env
+.env.*
+
+#################################
+# Azure/Deployment Configuration
+#################################
+**/Properties/PublishProfiles/
+serviceDependencies.*.json
+
+#################################
+# Visual Studio
+#################################
+.vs/
+.vsconfig
+
+#################################
+# Visual Studio Code
+#################################
+.vscode/
+
+#################################
+# Rider (JetBrains)
+#################################
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+#################################
+# NuGet Packages
+#################################
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+#################################
+# OS-Specific Files
+#################################
+*.DS_Store
+Thumbs.db
+
+#################################
+# Git Lock Files (Just in Case)
+#################################
+*.lock
+
+#################################
+# Node.js (if used with frontend)
+#################################
+node_modules/
+npm-debug.log
+yarn-error.log
