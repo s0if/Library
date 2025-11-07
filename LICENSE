@@ -1,0 +1,234 @@
+PROPRIETARY LICENSE AGREEMENT
+
+Copyright (c) 2025 Saif. All rights reserved.
+
+================================================================================
+
+TERMS AND CONDITIONS FOR USE, MODIFICATION, AND DISTRIBUTION
+
+================================================================================
+
+1. DEFINITIONS
+
+"Software" refers to the Library Management System API and all associated
+source code, documentation, and materials contained in this repository.
+
+"Author" refers to Saif, the original creator and copyright holder of the Software.
+
+"You" (or "Your") refers to any individual or legal entity exercising permissions
+granted by this License.
+
+"Modifications" refers to any changes, additions, or derivative works based on
+the Software.
+
+================================================================================
+
+2. GRANT OF RIGHTS
+
+Subject to the terms and conditions of this License, the Author grants You a
+limited, non-exclusive, non-transferable, revocable license to:
+
+a) Use the Software for personal, educational, or non-commercial purposes.
+
+b) Study and review the source code.
+
+c) Create Modifications to the Software.
+
+d) Push Modifications ONLY to a new branch within the original repository
+   (https://github.com/s0if/Library) via pull requests.
+
+================================================================================
+
+3. RESTRICTIONS
+
+You are explicitly PROHIBITED from:
+
+a) ATTRIBUTION REQUIREMENT:
+   - Using any portion of the Software's code in Your own projects, repositories,
+     or applications WITHOUT explicit written attribution stating:
+     "Source code from Library Management System API by Saif
+     (https://github.com/s0if/Library)"
+
+   - The attribution MUST be clearly visible in:
+     * README or documentation files
+     * Source code comments where the borrowed code is used
+     * Any public-facing credits or acknowledgments
+
+b) COMMERCIAL USE AND SELLING:
+   - Selling, licensing, sublicensing, or otherwise commercializing the Software
+     or any portion thereof, whether modified or unmodified.
+
+   - Offering the Software or derivative works as a commercial service.
+
+   - Including the Software or any part of it in commercial products or services.
+
+c) REDISTRIBUTION:
+   - Distributing copies of the Software outside of the original repository.
+
+   - Creating forks of the repository for purposes other than contributing back
+     to the original project.
+
+   - Publishing the Software or Modifications to other platforms, repositories,
+     or package managers without explicit written permission from the Author.
+
+d) MISREPRESENTATION:
+   - Claiming authorship or ownership of the Software or any portion thereof.
+
+   - Removing or altering copyright notices, attributions, or license terms.
+
+   - Implying endorsement by the Author without explicit written permission.
+
+================================================================================
+
+4. CONTRIBUTION TERMS
+
+If You wish to contribute Modifications to the Software:
+
+a) All contributions MUST be submitted as pull requests to a new branch in the
+   original repository.
+
+b) By submitting a contribution, You agree that Your contributions will be
+   licensed under the same terms as this License.
+
+c) You represent that You have the legal right to make the contribution.
+
+d) The Author reserves the right to accept, reject, or modify any contribution
+   at their sole discretion.
+
+================================================================================
+
+5. ATTRIBUTION REQUIREMENTS FOR EXTERNAL USE
+
+If You receive explicit written permission to use portions of the Software in
+Your own projects, You MUST:
+
+a) Include the following attribution in a prominent location:
+
+   "This project uses code from Library Management System API by Saif.
+    Source: https://github.com/s0if/Library
+    Licensed under Proprietary License - Copyright (c) 2025 Saif"
+
+b) Maintain all original copyright notices and license information from the
+   borrowed code.
+
+c) Clearly document which portions of Your project contain code from the Software.
+
+================================================================================
+
+6. NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+
+7. DISCLAIMER OF LIABILITY
+
+The Author shall not be held liable for:
+
+a) Any damages resulting from the use or inability to use the Software.
+
+b) Any bugs, errors, or security vulnerabilities in the Software.
+
+c) Any loss of data, profits, or business interruption.
+
+You use the Software entirely at Your own risk.
+
+================================================================================
+
+8. TERMINATION
+
+This License is effective until terminated. Your rights under this License will
+terminate automatically without notice if You fail to comply with any of its terms.
+
+Upon termination:
+
+a) You must immediately cease all use of the Software.
+
+b) You must delete all copies of the Software in Your possession or control.
+
+c) Any Modifications You created remain subject to this License.
+
+================================================================================
+
+9. ENFORCEMENT AND LEGAL ACTION
+
+a) VIOLATIONS OF THIS LICENSE, including but not limited to:
+   - Unauthorized commercial use or sale of the Software
+   - Use of the Software's code without proper attribution
+   - Unauthorized redistribution or forking
+
+   Will result in:
+   - Immediate termination of Your license
+   - Legal action seeking damages and injunctive relief
+   - Reporting to relevant platforms (GitHub, hosting providers, etc.)
+
+b) The Author reserves all rights to pursue legal remedies for violations of
+   this License to the fullest extent permitted by law.
+
+c) Violators will be held accountable for:
+   - Actual damages suffered by the Author
+   - Legal fees and costs of enforcement
+   - Any profits gained from unauthorized use
+
+================================================================================
+
+10. GOVERNING LAW
+
+This License shall be governed by and construed in accordance with the laws of
+the jurisdiction in which the Author resides, without regard to its conflict
+of law provisions.
+
+================================================================================
+
+11. ENTIRE AGREEMENT
+
+This License constitutes the entire agreement between You and the Author
+concerning the Software and supersedes all prior agreements and understandings.
+
+================================================================================
+
+12. AMENDMENTS
+
+The Author reserves the right to modify this License at any time. Continued use
+of the Software after modifications constitutes acceptance of the modified terms.
+
+================================================================================
+
+13. CONTACT FOR PERMISSIONS
+
+For permission to use the Software outside the scope of this License, including:
+- Commercial use
+- Use in external projects
+- Custom licensing arrangements
+
+Please contact the Author through the GitHub repository:
+https://github.com/s0if/Library
+
+================================================================================
+
+14. SEVERABILITY
+
+If any provision of this License is held to be unenforceable or invalid, such
+provision shall be modified to the minimum extent necessary to make it
+enforceable and valid, and the remaining provisions shall continue in full
+force and effect.
+
+================================================================================
+
+BY USING, COPYING, MODIFYING, OR DISTRIBUTING THE SOFTWARE, YOU ACKNOWLEDGE
+THAT YOU HAVE READ THIS LICENSE, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS
+TERMS AND CONDITIONS.
+
+================================================================================
+
+Copyright (c) 2025 Saif
+All rights reserved.
+
+Repository: https://github.com/s0if/Library
